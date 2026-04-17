@@ -1,0 +1,5 @@
+{
+  "editor.semanticHighlighting.enabled": "configuredByTheme",
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib",
+  "liveServer.settings.multiRootWorkspaceName": "The_Signature_Florist-react"
+}

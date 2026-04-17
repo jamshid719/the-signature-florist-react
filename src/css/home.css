@@ -1,0 +1,753 @@
+.homepage {
+  width: 100%;
+  height: auto;
+}
+
+/* STATISTICS */
+
+.homepage .static-frame {
+  width: 100%;
+  height: 200px;
+}
+
+.homepage .static-frame .info {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homepage .static-frame .info .static-box {
+  width: 231px;
+  height: 116px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homepage .static-frame .info .static-box .static-icon {
+  position: relative;
+  width: 90px;
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fdefbe;
+  border-radius: 50%;
+}
+
+.homepage .static-frame .info .static-box .service-frame {
+  position: relative;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+}
+
+.homepage .static-frame .info .static-box .service-frame .service-text {
+  font-family: Josefin sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  color: #d7b586;
+}
+
+.homepage .static-frame .info .static-box .service-frame .service-text-detail {
+  font-family: Poppins sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  color: #666666;
+}
+
+/* POPULAR_PRODUCTS */
+
+.popular-products-frame {
+  background-color: #f8f8f6;
+  width: 100%;
+  padding: 64px 0 80px;
+}
+
+.popular-products-frame .popular-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 36px;
+}
+
+.popular-products-frame .section-header {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  justify-content: space-between;
+}
+
+.popular-products-frame .section-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #7a7770;
+}
+
+/* "Popular Products" big serif title */
+.category-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 2.55rem;
+  font-weight: 400;
+  color: #1a1714;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+/* "View All Popular →" */
+.view-all-link {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: #1a1714;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+  padding-bottom: 5px;
+  user-select: none;
+}
+
+.view-all-link:hover {
+  color: #6b3c38;
+}
+
+.view-all-arrow {
+  font-size: 1rem !important;
+  transition: transform 0.22s ease;
+}
+
+.view-all-link:hover .view-all-arrow {
+  transform: translateX(5px);
+}
+
+/* ── Cards row ──────────────────────────────────────── */
+.cards-frame {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 22px;
+  align-items: stretch;
+}
+
+/* ── Single Card ────────────────────────────────────── */
+.card {
+  flex: 1 1 0;
+  min-width: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  cursor: pointer;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* ── CardCover: clips zoom inside border-radius ─────── */
+.card-cover {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  height: 390px !important;
+  position: relative !important;
+  display: block !important;
+}
+
+/* Image — only this zooms on card hover */
+.card .card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: scale(1);
+  will-change: transform;
+}
+
+.card:hover .card-cover img {
+  transform: scale(1.06);
+}
+
+/* ── CardContent: heart btn top-right ───────────────── */
+.card-content {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 10;
+  padding: 0 !important;
+  min-height: unset !important;
+  background: transparent !important;
+  pointer-events: none;
+  --Card-padding: 0px !important;
+}
+
+/* Heart wishlist button */
+.wishlist-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.13);
+}
+
+.wishlist-btn:hover {
+  background: #fff5f4;
+  transform: scale(1.1);
+}
+
+.wishlist-btn.active {
+  background: #fff5f4;
+}
+
+.heart-icon {
+  font-size: 1.05rem !important;
+  color: #1a1714 !important;
+  display: block;
+}
+
+.heart-icon.filled {
+  color: #c0392b !important;
+}
+
+/* ── CardOverflow: bottom info ──────────────────────── */
+.card-overflow {
+  padding: 14px 0 0 !important;
+  background: transparent !important;
+  border-top: none !important;
+  --CardOverflow-radius: 0px;
+  --CardOverflow-offset: 0px;
+}
+
+/* Product name — Playfair serif */
+.product-name {
+  font-family: "Playfair Display", "Georgia", serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 400 !important;
+  color: #1a1714 !important;
+  line-height: 1.3 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ingredients — light Inter */
+.product-ingredients {
+  font-family: "Inter", sans-serif !important;
+  font-size: 0.77rem !important;
+  font-weight: 300 !important;
+  color: #8a8680 !important;
+  line-height: 1.4 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Price — bold Inter, right side */
+.product-price {
+  font-family: "Inter", sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: #1a1714 !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* ── Empty state ────────────────────────────────────── */
+.no-data {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  color: #9a9690;
+  text-align: center;
+  padding: 60px 0;
+  width: 100%;
+}
+
+/* NEW_ARRIVALS*/
+
+.new-products-frame {
+  background-color: #f8f8f6;
+  width: 100%;
+  padding: 72px 0 80px;
+}
+
+.new-products-frame .main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-products-frame .category-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #1a1714;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.new-products-frame .category-desc {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #7a7770;
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+.new-products-frame .cards-frame {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* NEW badge */
+.new-products-frame .product-sale {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background-color: #eb7661;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+/* Rasm zoom */
+.new-products-frame .card-aspect img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: scale(1);
+}
+
+.new-products-frame .card:hover .card-aspect img {
+  transform: scale(1.06);
+}
+
+/* Info */
+.new-products-frame .info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.new-products-frame .title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1714;
+  line-height: 1.3;
+}
+
+.new-products-frame .price {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1714;
+  line-height: 1.4;
+}
+
+.new-products-frame .no-data {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #9a9690;
+  text-align: center;
+  padding: 60px 0;
+  width: 100%;
+}
+
+/**ADVERTISEMENT**/
+
+.homepage .ads-frame {
+  background-color: #143135;
+  width: 100%;
+  padding: 72px 0 80px;
+}
+
+/* ── Inner section ──────────────────────────────── */
+.homepage .ads-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ── Header ─────────────────────────────────────── */
+.homepage .ads-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* "OUR CRAFT" small label */
+.homepage .ads-label {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #7fb899;
+}
+
+/* "The Art of Botanical Storytelling" */
+.homepage .ads-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: #f5f0e8;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+/* ── Video wrapper ───────────────────────────────── */
+.homepage .ads-video-wrap {
+  position: relative;
+  width: 820px;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #0d1a10;
+}
+
+/* ── Actual video ────────────────────────────────── */
+.homepage .ads-video {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+/**ACTIVE-USERS**/
+
+.active-users-frame {
+  background-color: #f8f8f6;
+  width: 100%;
+  padding: 72px 0 80px;
+}
+
+/* ── Inner stack ────────────────────────────────── */
+.active-users-frame .au-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+/* ── Section header ─────────────────────────────── */
+.active-users-frame .au-section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.active-users-frame .au-section-label {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #3d6b4f;
+}
+
+.active-users-frame .au-category-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 42px;
+  font-weight: 400;
+  color: #1a1a14;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+/* ── Cards row ──────────────────────────────────── */
+.active-users-frame .au-cards-frame {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* ── Card hover ─────────────────────────────────── */
+.active-users-frame .au-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+/* ── Member name ────────────────────────────────── */
+.active-users-frame .au-member-nickname {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: #1a1a14;
+  text-align: center;
+  line-height: 22px;
+}
+
+/* ── Specialty ──────────────────────────────────── */
+.active-users-frame .au-member-specialty {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9a9690;
+  text-align: center;
+  line-height: 18px;
+  margin-bottom: 6px;
+}
+
+/* ── Rating row ─────────────────────────────────── */
+.active-users-frame .au-rating-row {
+  margin-top: 4px;
+}
+
+.active-users-frame .au-star-icon {
+  font-size: 18px;
+  color: #3d6b4f;
+}
+
+.active-users-frame .au-rating-value {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a14;
+}
+
+.active-users-frame .au-rating-count {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #9a9690;
+}
+
+/* ── Empty state ────────────────────────────────── */
+.active-users-frame .au-no-data {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #9a9690;
+  text-align: center;
+  padding: 60px 0;
+  width: 100%;
+}
+
+/** EVENTS **/
+
+.homepage .events-frame {
+  width: 100%;
+  height: 745px;
+  background: #f8f8ff;
+  display: flex;
+}
+
+.homepage .events-frame .category-title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 42px;
+  font-weight: 400;
+  color: #1a1a14;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.homepage .events-frame .events-main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage .events-frame .events-main .events-text {
+  width: auto;
+  height: 70px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.homepage .events-frame .events-main .prev-next-frame {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  margin: 40px 0 40px 0;
+  height: 25px;
+}
+
+.homepage .events-frame .dot-frame-pagination {
+  position: relative;
+  width: auto;
+  display: flex;
+}
+
+.homepage .events-frame .events-main .events-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.homepage .events-frame .events-info .events-info-frame {
+  position: relative;
+  width: 500px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.homepage .events-frame .events-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border-radius: 10px;
+  background-size: cover;
+}
+
+.homepage .events-frame .events-desc {
+  position: absolute;
+  margin-bottom: 7px;
+  padding: 10px;
+  display: flex;
+  width: 90%;
+  height: auto;
+  bottom: 5px;
+  background: #f8f8ff;
+  box-shadow: 0px 40px 30px rgba(25, 25, 46, 0.04);
+  border-radius: 8px;
+}
+
+.homepage .events-frame .events-desc .events-bott {
+  width: 97%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homepage .events-frame .events-desc .events-bott .bott-left {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.homepage .events-frame .bott-left .event-title-speaker {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.homepage .events-frame .event-title-speaker .event-organizator {
+  display: flex;
+  align-items: center;
+}
+
+.homepage .events-frame .event-title-speaker .event-organizator img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.homepage .events-frame .event-organizator .spec-text-author {
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  line-height: 34px;
+  color: #140342;
+}
+
+.homepage .events-frame .bott-left .text-desc {
+  margin-top: 10px;
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 26px;
+  color: #4f547b;
+}
+
+.homepage .events-frame .bott-left .bott-info {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  width: 100%;
+  height: 16px;
+}
+
+.homepage .events-frame .bott-info .bott-info-main {
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: auto;
+  height: 100%;
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4f547b;
+}
+
+.homepage .events-frame .bott-info .bott-info-main img {
+  margin-right: 10px;
+}
+
+.homepage .events-frame .swiper-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.homepage .events-frame .swiper-pagination-bullet {
+  margin-right: 5px;
+  width: 8px;
+  height: 8px;
+  text-align: center;
+  opacity: 1;
+  background: #f8f8ff;
+  border-radius: 50%;
+}
+
+.homepage .events-frame .swiper-pagination-bullet-active {
+  background: #343434;
+  border-radius: 50%;
+}
