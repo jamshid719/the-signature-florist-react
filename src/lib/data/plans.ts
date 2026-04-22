@@ -13,7 +13,7 @@ export const plans = [
     author: "Eleanor Vance",
     date: "On May",
     location: "Daegu, Our Shop",
-    img: "/img/NewComing.webp",
+    img: "/img/premium-Home_header_bg.webp",
   },
   {
     title: "Floral Workshop",

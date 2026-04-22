@@ -1,5 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
-import { Dispatch } from "@reduxjs/toolkit";
+import { SyntheticEvent, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,169 +8,161 @@ import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
 import "../../../css/order.css";
-import { Order, OrderInquiry } from "../../../lib/types/orders";
-import { setFinishedOrders, setPausedOrders, setProcessOrders } from "./slice";
-import { useDispatch } from "react-redux";
-import { OrderStatus } from "../../../lib/enums/order.enum";
-import OrderService from "../../services/OrderService";
-import { useGlobals } from "../../hooks/useGlobal";
-import { useHistory } from "react-router-dom";
-import { serverApi } from "../../../lib/config";
-import { MemberType } from "../../../lib/enums/member.enum";
-
-/** REDUX SLICE & SELECTOR */
-
-const actionDispatch = (dispatch: Dispatch) => ({
-  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
-  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
-  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
-});
 
 export default function OrdersPage() {
-  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
-    actionDispatch(useDispatch());
-  //orderBuilder qabul qilish
-  const { orderBuilder, setOrderBuilder, authMember } = useGlobals();
-  const history = useHistory();
   const [value, setValue] = useState("1");
-
-  const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
-    page: 1,
-    limit: 5,
-    orderStatus: OrderStatus.PAUSE,
-  });
-
-  useEffect(() => {
-    const order = new OrderService();
-
-    order
-      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
-      .then((data) => setPausedOrders(data)) //redux storega joyladik
-      .catch((err) => console.log(err));
-
-    order
-      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
-      .then((data) => setProcessOrders(data)) //redux storega joyladik
-      .catch((err) => console.log(err));
-
-    order
-      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
-      .then((data) => setFinishedOrders(data)) //redux storega joyladik
-      .catch((err) => console.log(err));
-  }, [orderInquiry, orderBuilder]);
-
-  /**HANDLERS */
+  const [payMethod, setPayMethod] = useState(0);
 
   const handleChange = (e: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  if (!authMember) history.push("/");
-  return (
-    <div className={"order-page"}>
-      <Container className={"order-container"}>
-        <Stack className={"order-left"}>
-          <TabContext value={value}>
-            <Box className={"order-nav-frame"}>
-              <Box sx={{ borderBottom: 2, borderColor: "divider" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                  className={"table_list"}
-                  sx={{ mb: 1 }}
-                >
-                  <Tab label="PAUSED ORDERS" value={"1"} />
-                  <Tab label="PROCESS ORDERS" value={"2"} />
-                  <Tab label="FINISHED ORDERS" value={"3"} />
-                </Tabs>
-              </Box>
-            </Box>
-            <Stack className={"order-main-content"}>
-              <PausedOrders setValue={setValue} />
-              <ProcessOrders setValue={setValue} />
-              <FinishedOrders />
-            </Stack>
-          </TabContext>
-        </Stack>
 
-        <Stack className={"order-right"}>
-          <Box className={"order-info-box"}>
-            <Box className={"member-box"}>
-              <div className={"order-user-img"}>
-                <img
-                  src={
-                    authMember?.memberImage
-                      ? `${serverApi}/${authMember?.memberImage}`
-                      : "/icons/default-user.svg"
-                  }
-                  alt=""
-                  className={"order-user-avatar"}
-                />
-                <div className={"order-user-icon-box"}>
-                  <img
-                    src={
-                      authMember?.memberType === MemberType.RESTAURANT
-                        ? "/icons/restaurant.svg"
-                        : "/icons/user-badge.svg"
-                    }
-                    alt=""
-                    className={"order-user-prof-img"}
-                  />
+  const member = {
+    name: "Sarah Johnson",
+    email: "sarah@example.com",
+    phone: "+1 (555) 012-3456",
+    address: "123 Botanical Lane, Flower District, NY 10012",
+    emoji: "🌸",
+  };
+
+  return (
+    <div className="orders-page">
+      <Container>
+        <div className="orders-header">
+          <h2>My Orders</h2>
+          <p>Track and manage your flower orders</p>
+        </div>
+
+        <div className="orders-layout">
+          {/* ── LEFT PANEL ── */}
+          <div className="orders-left">
+            {/* Member card */}
+            <div className="member-card">
+              <div className="member-avatar">{member.emoji}</div>
+              <div className="member-name">{member.name}</div>
+              <div className="member-email">{member.email}</div>
+              <div className="member-divider" />
+
+              <div className="member-info-row">
+                <div className="member-info-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="member-info-label">Phone</div>
+                  <div className="member-info-val">{member.phone}</div>
                 </div>
               </div>
-              <span className={"order-user-name"}>
-                {authMember?.memberNick}
-              </span>
-              <span className={"order-user-prof"}>
-                {" "}
-                {authMember?.memberType}
-              </span>
-            </Box>
-            <Box className={"liner"}></Box>
-            <Box className={"order-user-address"}>
-              <div style={{ display: "flex" }}>
-                <LocationOnIcon />
-                <span>
-                  {authMember?.memberAddress
-                    ? authMember?.memberAddress
-                    : "do not exist"}
-                </span>
+
+              <div className="member-info-row">
+                <div className="member-info-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="member-info-label">Address</div>
+                  <div className="member-info-val">{member.address}</div>
+                </div>
               </div>
-            </Box>
-          </Box>
-          <Box className={"order-card-box"}>
-            <Box className={"order-card-input-box"}>
-              <input
-                type="text"
-                className={"single-input"}
-                placeholder="Card Number 5555 7777 8888 9999"
-              />
-              <div className={"half-input-box"}>
-                <input
-                  type="text"
-                  className={"half-input"}
-                  placeholder="07/24"
-                />
-                <input
-                  type="text"
-                  className={"half-input"}
-                  placeholder="CVV: 010"
-                />
+            </div>
+
+            {/* Payment card */}
+            <div className="payment-card">
+              <div className="payment-title">Payment Method</div>
+
+              <div className="payment-methods">
+                {[
+                  { label: "Visa", color: "#1a1f71" },
+                  { label: "MC", color: "#eb001b" },
+                  { label: "PP", color: "#003087" },
+                  { label: "WU", color: "#f5a623" },
+                ].map((m, i) => (
+                  <div
+                    key={i}
+                    className={`pay-icon${payMethod === i ? " active" : ""}`}
+                    onClick={() => setPayMethod(i)}
+                  >
+                    <svg viewBox="0 0 48 24" style={{ width: 36 }}>
+                      <rect
+                        width="48"
+                        height="24"
+                        rx="4"
+                        fill={payMethod === i ? "#f0faf5" : "#f9f9f9"}
+                      />
+                      <text
+                        x="50%"
+                        y="16"
+                        textAnchor="middle"
+                        fontSize="9"
+                        fontWeight="700"
+                        fill={m.color}
+                        fontFamily="Jost,Arial"
+                      >
+                        {m.label}
+                      </text>
+                    </svg>
+                  </div>
+                ))}
               </div>
-              <input
-                type="text"
-                className={"single-input"}
-                placeholder="Floyd Sober"
-              />
-            </Box>
-            <Box className={"order-card-img-box"}>
-              <img src="/icons/western-card.svg" alt="" />
-              <img src="/icons/master-card.svg" alt="" />
-              <img src="/icons/paypal-card.svg" alt="" />
-              <img src="/icons/visa-card.svg" alt="" />
-            </Box>
-          </Box>
-        </Stack>
+
+              <div className="card-form">
+                <div className="card-field">
+                  <label>Card Number</label>
+                  <input
+                    type="text"
+                    placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                  />
+                </div>
+                <div className="card-field">
+                  <label>Card Holder</label>
+                  <input type="text" placeholder="Sarah Johnson" />
+                </div>
+                <div className="card-row">
+                  <div className="card-field">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM / YY" maxLength={7} />
+                  </div>
+                  <div className="card-field">
+                    <label>CVV</label>
+                    <input type="text" placeholder="•••" maxLength={3} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── RIGHT PANEL ── */}
+          <div className="orders-right">
+            <div className="orders-tabs-wrap">
+              <TabContext value={value}>
+                <div className="orders-tab-header">
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      aria-label="orders tabs"
+                      variant="scrollable"
+                      scrollButtons={false}
+                    >
+                      <Tab label="Paused" value={"1"} />
+                      <Tab label="In Process" value={"2"} />
+                      <Tab label="Finished" value={"3"} />
+                    </Tabs>
+                  </Box>
+                </div>
+                <div className="orders-tab-content">
+                  <PausedOrders />
+                  <ProcessOrders />
+                  <FinishedOrders />
+                </div>
+              </TabContext>
+            </div>
+          </div>
+        </div>
       </Container>
     </div>
   );

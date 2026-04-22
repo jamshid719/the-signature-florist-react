@@ -14,11 +14,21 @@ export default function UserPage() {
   const history = useHistory();
   const { authMember } = useGlobals();
 
-  if (!authMember) history.push("/"); // secure un, agar user link orqali myPage kirmoqchi bulsa, homePage ga yuboradi. (buni orders ga ham qullash kk)
+  // if (!authMember) {
+  //   history.push("/");
+  //   return null;
+  // }
+
   return (
     <div className={"user-page"}>
       <Container>
-        <Stack className={"my-page-frame"}>
+        <Stack
+          className={"my-page-frame"}
+          flexDirection={"row"} /* ← qo'shing */
+          alignItems={"flex-start"} /* ← qo'shing */
+          gap={"24px"}
+        >
+          {/* ── LEFT ── */}
           <Stack className={"my-page-left"}>
             <Box display={"flex"} flexDirection={"column"}>
               <Box className={"menu-name"}>Modify Member Details</Box>
@@ -28,6 +38,7 @@ export default function UserPage() {
             </Box>
           </Stack>
 
+          {/* ── RIGHT ── */}
           <Stack className={"my-page-right"}>
             <Box className={"order-info-box"}>
               <Box
@@ -43,6 +54,7 @@ export default function UserPage() {
                         : "/icons/default-user.svg"
                     }
                     className={"order-user-avatar"}
+                    alt="avatar"
                   />
                   <div className={"order-user-icon-box"}>
                     <img
@@ -51,6 +63,7 @@ export default function UserPage() {
                           ? "/icons/restaurant.svg"
                           : "/icons/user-badge.svg"
                       }
+                      alt="badge"
                     />
                   </div>
                 </div>
@@ -66,12 +79,14 @@ export default function UserPage() {
                     : "no address"}
                 </span>
               </Box>
+
               <Box className={"user-media-box"}>
                 <FacebookIcon />
                 <InstagramIcon />
                 <TelegramIcon />
                 <YouTubeIcon />
               </Box>
+
               <p className={"user-desc"}>
                 {authMember?.memberDesc
                   ? authMember?.memberDesc

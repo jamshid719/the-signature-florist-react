@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -9,340 +9,183 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Typography from "@mui/material/Typography";
-import { Product, ProductInquiry } from "../../../lib/types/product";
-import { setProducts } from "./slice";
 
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
-import { retrieveProducts } from "./selector";
-import ProductService from "../../services/ProductService";
-import {
-  ProductCollection,
-  ProductVolume,
-} from "../../../lib/enums/product.enum";
-import { serverApi } from "../../../lib/config";
-import { useHistory } from "react-router-dom";
-import { CartItem } from "../../../lib/types/search";
+const products = [
+  {
+    productName: "Bouquet of Red & Yellow Tulips",
+    imagePath: "/img/OnSale_florals.jpg",
+    price: 62,
+    oldPrice: null,
+    sale: false,
+  },
+  {
+    productName: "Bouquet of Red Tulips with Green Vase",
+    imagePath: "/img/tulip-red.webp",
+    price: 62,
+    oldPrice: null,
+    sale: false,
+  },
+  {
+    productName: "Bright bouquet of beauty peonies",
+    imagePath: "/img/peony.webp",
+    price: 45,
+    oldPrice: 50,
+    sale: true,
+  },
+  {
+    productName: "Easter Basket with White Flower",
+    imagePath: "/img/OnSale_florals.jpg",
+    price: 72,
+    oldPrice: 79,
+    sale: true,
+  },
+  {
+    productName: "Pink Rose with Glass Vase",
+    imagePath: "/img/rose-pink.webp",
+    price: 32,
+    oldPrice: 50,
+    sale: true,
+  },
+  {
+    productName: "Pink Tulips with Classic Vase",
+    imagePath: "/img/tulip-classic.webp",
+    price: 57,
+    oldPrice: 60,
+    sale: true,
+  },
+  {
+    productName: "Pink Tulips with Glass Vase",
+    imagePath: "/img/tulip-glass.webp",
+    price: 55,
+    oldPrice: 65,
+    sale: true,
+  },
+  {
+    productName: "Pink Tulips with White Vase",
+    imagePath: "/img/tulip-white.webp",
+    price: 40,
+    oldPrice: 42,
+    sale: true,
+  },
+];
 
-/** REDUX SLICE & SELECTOR */
+const circleCategories = [
+  { label: "All Product", imagePath: "/img/OnSale_florals.jpg" },
+  { label: "Tulips", imagePath: "/img/OnSale_florals.jpg" },
+  { label: "Rose", imagePath: "/img/cat-rose.webp" },
+  { label: "Bouquet", imagePath: "/img/cat-bouquet.webp" },
+  { label: "Hampers", imagePath: "/img/cat-hampers.webp" },
+  { label: "Collections", imagePath: "/img/cat-collections.webp" },
+];
 
-//slice
-const actionDispatch = (dispatch: Dispatch) => ({
-  setProducts: (data: Product[]) => dispatch(setProducts(data)),
-});
-
-//selector
-const productsRetriever = createSelector(retrieveProducts, (products) => ({
-  products,
-}));
-
-//Doim Backend datalarni Service lar orqali malumotlarni olamiz.
-
-interface ProductsProps {
-  onAdd: (item: CartItem) => void;
-}
-
-export default function Products(props: ProductsProps) {
-  const { onAdd } = props;
-  const { setProducts } = actionDispatch(useDispatch());
-  const { products } = useSelector(productsRetriever);
-
-  //Maxsus object hosil qlamz useState orqali(user interactive qlish un).
-  const [productSearch, setProductSearch] = useState<ProductInquiry>({
-    page: 1,
-    limit: 8,
-    order: "createdAt", // boshida 'NEW' buttoni bosilgan buladi
-    productCollection: ProductCollection.DISH, //chunki dastlab productPage kirib kelganda, "DISH" buttoni bosilgan buladi.
-    search: "", //search qismida hechnarsa yozilmagan buliwi kk.
-  });
-
-  const [searchText, setSearchText] = useState<string>("");
-
-  const history = useHistory(); //kod orqali boshqa sahifaga o'tkazish.(chooseDishHandler ga ishlatamiz)
-
-  //Doim Backend datalarni Service lar orqali malumotlarni olamiz.
-  useEffect(() => {
-    const product = new ProductService();
-    product
-      .getProducts(productSearch)
-      .then((data) => setProducts(data))
-      .catch((err) => console.log(err));
-  }, [productSearch]); //bu yerda productSearch qiymati har safar uzgarganda backenddan malumotlarni olib beradi, yani yana useEffect qayta tushishini takidlayapmiz.(bu componentDidUpdate lifecycle.). bu user interactionlarda ishga tushadi.
-
-  useEffect(() => {
-    if (searchText === "") {
-      productSearch.search = "";
-      setProductSearch({ ...productSearch });
-    }
-  }, [searchText]); //inputdagi searchText qilgandan kn "X" bossak, bush stringa aylantirish un (yani bowqa productni izlash un) shu useEffectdan foydalanamiz.
-
-  /**HANDLERS */
-
-  //searchCollectionHandler
-  const searchCollectionHandler = (collection: ProductCollection) => {
-    productSearch.page = 1; //shu btnlar har bosilganda, page 1 ga olib kelsin degani.
-    productSearch.productCollection = collection;
-    setProductSearch({ ...productSearch }); //bunda spread operatorini qullab, productSrearch qiymatlaridan foydalangan holda yangi object yaratamiz, bulmasa useEffect ishga tuwmaydi. - bunday qilishimzning sababi bu obj. reference tushunchasi bn boqliq.
-  };
-
-  //searchOrderHandler
-  const searchOrderHandler = (order: string) => {
-    productSearch.page = 1;
-    productSearch.order = order;
-    setProductSearch({ ...productSearch });
-  };
-
-  //searchProductHandler
-  const searchProductHandler = () => {
-    productSearch.search = searchText;
-    setProductSearch({ ...productSearch });
-  };
-
-  //PaginationHandler
-  const PaginationHandler = (e: ChangeEvent<any>, value: number) => {
-    productSearch.page = value;
-    setProductSearch({ ...productSearch });
-  }; // bu yerda MUI bydefault 2ta qiymat beradi, ChangeEvent va value, bizga value kk ishlatishga.
-
-  // chooseDishHandler
-  const chooseDishHandler = (id: string) => {
-    history.push(`/products/${id}`);
-  }; //history.push - bu malum bir productni bosganda chosenProductPage sahifasiga yuboradi)
-
+export default function Products() {
   return (
     <div className={"products"}>
       <Container>
         <Stack flexDirection={"column"} alignItems={"center"}>
+          {/* ── Title + Search ── */}
           <Stack
             className={"avatar-big-box"}
-            flexDirection={"row"}
+            flexDirection={"column"}
             alignItems={"center"}
-            justifyContent={"flex-end"}
+            justifyContent={"center"}
           >
-            <Typography className="top-text">Burak Restaurant</Typography>
-            <Stack className="search-input-btn">
+            <Typography className="top-text">Shop</Typography>
+            <Stack className="search-input-btn" flexDirection={"row"}>
               <input
                 type="search"
                 className="single-search-input"
                 name="singleResearch"
-                placeholder="Type here"
-                value={searchText} // useStatedagi shuni bowlangich value sifatida quyamiz.
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") searchProductHandler();
-                }} //bu listener, klaviaturadagi 'enter' tugmasi bosilgandan searchProductHandler() ishga tushir degani.
+                placeholder="Find product"
+                value=""
               />
-
-              <Button
-                variant="contained"
-                sx={{ borderRadius: 25 }}
-                onClick={
-                  searchProductHandler
-                } /**hech qanday qiymat quyilmaganligi un 1 satr yozdik */
-              >
-                Search <SearchIcon sx={{ ml: 1 }} />
-              </Button>
+              <button className="search-btn-icon">
+                <SearchIcon sx={{ fontSize: 20 }} />
+              </button>
             </Stack>
           </Stack>
+
+          {/* ── Circle Category Filter ── */}
           <Stack className={"dishes-filter-section"}>
             <Stack
               className={"dishes-filter-box"}
               flexDirection={"row"}
               alignItems={"center"}
             >
-              <Button
-                variant={"contained"}
-                className={"order"}
-                color={
-                  productSearch.order === "createdAt" ? "primary" : "secondary"
-                }
-                onClick={() => searchOrderHandler("createdAt")}
-              >
-                New
-              </Button>
-              <Button
-                variant={"contained"}
-                className={"order"}
-                color={
-                  productSearch.order === "productPrice"
-                    ? "primary"
-                    : "secondary"
-                }
-                onClick={() => searchOrderHandler("productPrice")}
-              >
-                Price
-              </Button>
-              <Button
-                variant={"contained"}
-                className={"order"}
-                color={
-                  productSearch.order === "productViews"
-                    ? "primary"
-                    : "secondary"
-                }
-                onClick={() => searchOrderHandler("productViews")}
-              >
-                Views
-              </Button>
+              {circleCategories.map((cat, index) => (
+                <button
+                  key={index}
+                  className={`circle-category-btn${index === 0 ? " active-cat" : ""}`}
+                >
+                  <div className="circle-img-wrap">
+                    <img src={cat.imagePath} alt={cat.label} />
+                    <div className="circle-overlay">
+                      <span>{cat.label}</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
             </Stack>
           </Stack>
 
+          {/* ── Sort + Filter + Products ── */}
           <Stack
             className={"list-category-section"}
-            flexDirection={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
+            flexDirection={"column"}
+            alignItems={"flex-start"}
           >
-            <Stack className={"product-category"}>
-              <div className={"category-main"}>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection === ProductCollection.OTHER
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.OTHER)
-                  }
-                >
-                  Other
-                </Button>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection ===
-                    ProductCollection.DESSERT
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.DESSERT)
-                  }
-                >
-                  Dessert
-                </Button>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection === ProductCollection.DRINK
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.DRINK)
-                  }
-                >
-                  Drink
-                </Button>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection === ProductCollection.SALAD
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.SALAD)
-                  }
-                >
-                  Salad
-                </Button>
-                <Button
-                  variant={"contained"}
-                  color={
-                    productSearch.productCollection === ProductCollection.DISH
-                      ? "primary"
-                      : "secondary"
-                  }
-                  onClick={() =>
-                    searchCollectionHandler(ProductCollection.DISH)
-                  }
-                >
-                  Dish
-                </Button>
-              </div>
-            </Stack>
-            <Stack className={"product-wrapper"}>
+            {/* Sort + Filter row */}
+            <div className="sort-filter-row">
+              <button className="filter-btn active-filter">Bouquet</button>
+              <button className="filter-btn">Vase</button>
+              <button className="filter-btn">Houseplant</button>
+              <button className="filter-btn">Tree</button>
+              <button className="filter-btn">Other</button>
+              <select className="sort-select">
+                <option>Default sorting</option>
+                <option>Sort by price: low to high</option>
+                <option>Sort by price: high to low</option>
+                <option>Sort by newest</option>
+              </select>
+            </div>
+
+            {/* Product grid */}
+            <div className={"product-wrapper"}>
               {products.length !== 0 ? (
-                products.map((product: Product) => {
-                  const imagePath = `${serverApi}/${product.productImages[0]}`;
-                  const sizeVolume =
-                    product.productCollection === ProductCollection.DRINK
-                      ? product.productVolume + " L"
-                      : product.productSize + " SIZE";
-                  return (
+                products.map((product, index) => (
+                  <Stack key={index} className={"product-card"}>
                     <Stack
-                      key={product._id}
-                      className={"product-card"}
-                      onClick={() => chooseDishHandler(product._id)}
+                      className={"product-img"}
+                      sx={{ backgroundImage: `url(${product.imagePath})` }}
                     >
-                      <Stack
-                        className={"product-img"}
-                        sx={{ backgroundImage: `url(${imagePath})` }}
-                      >
-                        <div className={"product-sale"}>{sizeVolume}</div>
-                        <Button
-                          className={"shop-btn"}
-                          onClick={(e) => {
-                            onAdd({
-                              _id: product._id,
-                              quantity: 1, //quantity doim 1 ta tovar qushish kk.
-                              name: product.productName,
-                              price: product.productPrice,
-                              image: product.productImages[0],
-                            });
-                            e.stopPropagation(); //bosilganda parent event ishlamasligi un, yani aynan shu Button ishlashi un.
-                          }}
-                        >
-                          <img
-                            src={"/icons/shopping-cart.svg"}
-                            style={{ display: "flex" }}
-                            alt=""
-                          />
-                        </Button>
-                        <Button className={"view-btn"} sx={{ right: "36px" }}>
-                          <Badge
-                            badgeContent={product.productViews}
-                            color="secondary"
-                          >
-                            <RemoveRedEyeIcon
-                              sx={{
-                                color:
-                                  product.productViews === 0 ? "gray" : "white",
-                              }}
-                            />
-                          </Badge>
-                        </Button>
-                      </Stack>
-                      <Box className={"product-desc"}>
-                        <span className="product-title">
-                          {product.productName}
-                        </span>
-                        <div className={"product-price"}>
-                          <MonetizationOnIcon sx={{ fontSize: 28 }} />
-                          {product.productPrice}
-                        </div>{" "}
-                      </Box>
+                      {product.sale && (
+                        <div className={"product-size"}>Size</div>
+                      )}
+                      <Button className={"shop-btn"} />
+                      <Button className={"view-btn"} sx={{ right: "36px" }} />
                     </Stack>
-                  );
-                })
+                    <Box className={"product-desc"}>
+                      <span className="product-title">
+                        {product.productName}
+                      </span>
+                      <div className={"product-price"}>
+                        <span>${product.price}.00</span>
+                      </div>
+                      <button className="add-to-cart-btn">Add to cart</button>
+                    </Box>
+                  </Stack>
+                ))
               ) : (
                 <Box className="no-data">Products are not available!</Box>
               )}
-            </Stack>
+            </div>
           </Stack>
+
+          {/* ── Pagination ── */}
           <Stack className={"pagination-section"}>
             <Pagination
-              count={
-                products.length !== 0
-                  ? productSearch.page + 1
-                  : productSearch.page
-              } //countni qiymatini yangilash.(yani pageda productlar bor bulsa, kngi yana 1ta page qush, yoki bulmasam qushma degani.)
-              page={productSearch.page}
+              count={3}
+              page={1}
               renderItem={(item) => (
                 <PaginationItem
                   components={{
@@ -350,52 +193,54 @@ export default function Products(props: ProductsProps) {
                     next: ArrowForwardIcon,
                   }}
                   {...item}
-                  color={"secondary"}
                 />
               )}
-              onChange={PaginationHandler}
             />
           </Stack>
         </Stack>
       </Container>
 
-      <div className={"brands-logo"}>
+      {/* ── Discount Banner ── */}
+      <div className={"discount-banner"}>
         <Container>
-          <Stack
-            className={"brands-logo-sub"}
-            flexDirection={"column"}
-            alignItems={"center"}
-          >
-            <Typography className="brand-title">Our Family Brands</Typography>
-            <Stack
-              className="brand-logo-ram"
-              flexDirection={"row"}
-              alignItems={"center"}
-              justifyContent={"space-between"}
-              sx={{ mt: "69px" }}
-            >
-              <img className="brand-logo-image" src="/img/gurme.webp" alt="" />
-              <img className="brand-logo-image" src="/img/gurme.webp" alt="" />
-              <img className="brand-logo-image" src="/img/gurme.webp" alt="" />
-              <img className="brand-logo-image" src="/img/gurme.webp" alt="" />
-            </Stack>
+          <Stack alignItems={"center"}>
+            <div className={"discount-banner-inner"}>
+              <img
+                className={"discount-banner-bg"}
+                src={"/img/banner-leaf.jpg"}
+                alt="banner"
+              />
+              <div className={"discount-banner-content"}>
+                <Typography className={"discount-title"}>
+                  Discount up to 30% for your first purchase.
+                </Typography>
+                <Typography className={"discount-desc"}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+                  elit tellus, luctus nec ullamcorper mattis, pulvinar leo.
+                </Typography>
+                <button className={"discount-shop-btn"}>Shop Now</button>
+              </div>
+            </div>
           </Stack>
         </Container>
       </div>
-      <div className={"address"}>
-        <Container>
-          <Stack className={"address-area"}>
-            <Box className={"address-title"}>Our address</Box>
+
+      {/* ── Address ── */}
+
+      <Container disableGutters>
+        <Stack className={"address-area"}>
+          <Box className={"address-title"}>Our address</Box>
+          <div className={"map-wrapper"}>
             <iframe
-              style={{ marginTop: "60px", marginBottom: "60px" }}
+              style={{ marginTop: "0px", marginBottom: "0px" }}
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25859.219637661423!2d128.60129279999998!3d35.88815774999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3565e1aa3b33a607%3A0xca08be7329f6a0ca!2sEXCO!5e0!3m2!1sen!2skr!4v1771668833177!5m2!1sen!2skr"
               referrerPolicy="no-referrer-when-downgrade"
-              width="1320"
+              width="100%"
               height="500"
             ></iframe>
-          </Stack>
-        </Container>
-      </div>
+          </div>
+        </Stack>
+      </Container>
     </div>
   );
 }

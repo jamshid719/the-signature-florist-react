@@ -1,89 +1,117 @@
 import React from "react";
 import { Box, Container, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-
-const Footers = styled.div`
-  width: 100%;
-  height: 590px;
-  display: flex;
-  background: #343434;
-  background-size: cover;
-`;
 
 export default function Footer() {
   const authMember = null;
 
   return (
-    <Footers>
+    <div className="footer-wrapper">
       <Container>
         <Stack flexDirection={"row"} sx={{ mt: "94px" }}>
-          <Stack flexDirection={"column"} style={{ width: "340px" }}>
-            <Box>
-              <img width={"100px"} src={"/icons/burak.svg"} />
-            </Box>
-            <Box className={"foot-desc-txt"}>
-              Focusing on the gourmet Turkish breakfast as well as the youth
-              society, CZN Burak Gurme aims to bring Turkish cuisine back. CZN
-              Burak Gurme creates an illusion with its cuisine.
-            </Box>
-            <Box className="sns-context">
-              <img src={"/icons/facebook.svg"} />
-              <img src={"/icons/twitter.svg"} />
-              <img src={"/icons/instagram.svg"} />
-              <img src={"/icons/youtube.svg"} />
-            </Box>
+          {/* Brand */}
+          <Stack flexDirection={"column"} style={{ width: "300px" }}>
+            <div className="footer-logo">The Signature Florist</div>
+            <div className="footer-desc-txt">
+              Daegu, Buk-gu, <br />
+              Flower District, 엑스코로 10
+              <br />
+              <br />
+              hello@signatureflorist.com
+              <br />
+              +82 (053) 012-3456
+            </div>
+            <div className="sns-context">
+              <a href="#" aria-label="Share">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+              </a>
+              <a href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="0.5"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <a href="#" aria-label="Website">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </a>
+            </div>
           </Stack>
-          <Stack sx={{ ml: "288px" }} flexDirection={"row"}>
+
+          {/* Nav columns */}
+          <Stack sx={{ ml: "120px" }} flexDirection={"row"} gap={"100px"}>
+            {/* Explore */}
             <Stack>
               <Box>
-                <Box className={"foot-category-title"}>Bo'limlar</Box>
-                <Box className={"foot-category-link"}>
-                  <Link to="/">Home</Link>
+                <div className="foot-category-title">Explore</div>
+                <div className="foot-category-link">
+                  <Link to="/" className="active">
+                    Home
+                  </Link>
                   <Link to="/products">Products</Link>
                   {authMember && <Link to="/orders">Orders</Link>}
                   <Link to="/help">Help</Link>
-                </Box>
+                  <Link to="/cart">Cart</Link>
+                </div>
               </Box>
             </Stack>
-            <Stack sx={{ ml: "100px" }}>
+
+            {/* Legal */}
+            <Stack>
               <Box>
-                <Box className={"foot-category-title"}>Find us</Box>
-                <Box
-                  flexDirection={"column"}
-                  sx={{ mt: "20px" }}
-                  className={"foot-category-link"}
-                  justifyContent={"space-between"}
-                >
-                  <Box flexDirection={"row"} className={"find-us"}>
-                    <span>L.</span>
-                    <div>Downtown, Dubai</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>P.</span>
-                    <div>+971 4 554 7777</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>E.</span>
-                    <div>devexuz@gmail.com</div>
-                  </Box>
-                  <Box className={"find-us"}>
-                    <span>H.</span>
-                    <div>Visit 24 hours</div>
-                  </Box>
-                </Box>
+                <div className="foot-category-title">Legal</div>
+                <div className="foot-category-link">
+                  <Link to="/privacy">Privacy Policy</Link>
+                  <Link to="/terms">Terms of Service</Link>
+                </div>
+              </Box>
+            </Stack>
+
+            {/* Follow Us */}
+            <Stack>
+              <Box>
+                <div className="foot-category-title">Follow Us</div>
+                <p className="newsletter-text">
+                  Sign up for our newsletter to receive seasonal bloom updates
+                  and care tips.
+                </p>
+                <div className="newsletter-form">
+                  <input type="email" placeholder="Email" />
+                  <button aria-label="Subscribe">
+                    <svg viewBox="0 0 24 24">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </button>
+                </div>
               </Box>
             </Stack>
           </Stack>
         </Stack>
-        <Stack
-          style={{ border: "1px solid #C5C8C9", width: "100%", opacity: "0.2" }}
-          sx={{ mt: "80px" }}
-        ></Stack>
-        <Stack className={"copyright-txt"}>
-          © Copyright Devex Global, All rights reserved.
-        </Stack>
+
+        {/* Divider */}
+        <div className="footer-divider" />
+
+        <div className="copyright-txt">
+          © 2024 The Signature Florist. All rights reserved.
+        </div>
       </Container>
-    </Footers>
+    </div>
   );
 }

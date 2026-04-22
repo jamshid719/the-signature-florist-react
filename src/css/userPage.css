@@ -1,337 +1,338 @@
+/* ========== PAGE ========== */
 .user-page {
-	width: 100%;
-	height: auto;
-	display: flex;
-	background: #f8f8ff;
+  background: #f0f4f0;
+  min-height: 100vh;
+  padding: 32px 0;
+  font-family: "Jost", sans-serif;
 }
 
-.user-page .css-heg063-MuiTabs-flexContainer {
-	flex-direction: column;
+/* ========== FRAME ========== */
+.my-page-frame {
+  display: flex;
+  flex-direction: row;
+
+  gap: 24px;
+  align-items: flex-start;
 }
 
-.user-page .css-mn3ro6-MuiTabs-indicator {
-	height: 0px;
-	width: 0px;
+/* ========== LEFT ========== */
+.my-page-left {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8eaec;
+  padding: 28px;
 }
 
-.user-page .css-1ujnqem-MuiTabs-root {
-	width: 100%;
+.menu-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  color: #1a3a2a;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.user-page .my-page-frame {
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: row;
-	padding: 50px 0 50px 0;
+.menu-content {
+  width: 100%;
 }
 
-.my-page-frame .my-page-left {
-	width: 70%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+/* ========== SETTINGS ========== */
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
 }
 
-.my-page-left .menu-name {
-	width: 100%;
-	height: 70px;
-	display: flex;
-	justify-content: center;
-	border-bottom: 1px solid #f8f8ff;
-	font-family: 'Poppins';
-	font-style: normal;
-	font-weight: 600;
-	font-size: 45px;
-	color: #f8f8ff;
+/* ── Image Upload ── */
+.member-media-frame {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.my-page-left .menu-content {
-	margin-top: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+.mb-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+  background: #e8eaec;
+  flex-shrink: 0;
 }
 
-.my-page-left .write-content {
-	margin-top: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+.media-change-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.user-page .menu-content .post-content {
-	margin-top: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+.media-change-box span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a3a2a;
 }
 
-.my-page-frame .my-page-right {
-	margin-left: 30px;
-	width: 30%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+.media-change-box p {
+  font-size: 12px;
+  font-weight: 300;
+  color: #aaa;
+  margin-bottom: 8px;
 }
 
-.user-page .order-info-box {
-	position: relative;
-	padding: 20px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background: #f6f2ff;
-	box-shadow: 15px 14px 4px rgba(0, 0, 0, 0.25), inset -1px 0px 16px 13px rgb(24 23 112 / 20%);
-	border-radius: 16px;
+.up-del-box {
+  display: flex;
+  gap: 8px;
 }
 
-.user-page .order-info-box .settings-btn {
-	position: absolute;
-	top: 6%;
-	right: 19%;
-	cursor: pointer;
+.up-del-box .MuiButton-root {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 8px;
+  background: #2d7a4f;
+  color: #fff;
+  padding: 0;
+  transition:
+    background 0.22s,
+    transform 0.18s;
 }
 
-.user-page .order-info-box .order-user-img {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.up-del-box .MuiButton-root:hover {
+  background: #1a5235;
+  transform: scale(1.06);
 }
 
-.user-page .order-info-box .order-user-img .order-user-avatar {
-	width: 150px;
-	height: 150px;
-	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	border-radius: 37px;
+.up-del-box .MuiButton-root svg {
+  font-size: 20px;
 }
 
-.user-page .order-info-box .order-user-icon-box {
-	position: absolute;
-	padding: 5px;
-	width: 37px;
-	height: 37px;
-	top: 81%;
-	right: 0;
-	display: flex;
-	background: rgb(209 209 209 / 33%);
-	border-radius: 37px;
+/* ── Input Frame ── */
+.input-frame {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
 }
 
-.user-page .order-info-box .order-user-name {
-	margin-top: 10px;
-	font-family: 'Commissioner';
-	font-style: normal;
-	font-weight: 500;
-	font-size: 28px;
-	line-height: 36px;
-	color: #08090d;
+/* ── Long Input ── */
+.long-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
 }
 
-.user-page .order-info-box .order-user-prof {
-	font-family: 'Commissioner';
-	font-style: normal;
-	font-weight: 500;
-	font-size: 20px;
-	line-height: 36px;
-	color: #a1a1a1;
+/* ── Short Input ── */
+.short-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
 }
 
-.user-page .order-info-box .user-media-box {
-	margin-top: 10px;
-	width: 60%;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+/* ── Label ── */
+.spec-label {
+  font-size: 11px;
+  font-weight: 400;
+  color: #aaa;
+  letter-spacing: 0.3px;
 }
 
-.user-page .order-info-box .user-desc {
-	margin-top: 30px;
-	width: 90%;
-	display: flex;
-	justify-content: center;
-	font-family: 'DM Sans';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 24px;
-	color: #616164;
+/* ── Input ── */
+.spec-input {
+  height: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  padding: 0 12px;
+  font-family: "Jost", sans-serif;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.2s;
+  width: 100%;
 }
 
-.user-page .order-info-box .css-1e3kzd4-MuiButtonBase-root-MuiButton-root {
-	margin-top: 15px;
-	min-width: 90%;
-	height: 44px;
-	text-transform: capitalize;
-	font-style: normal;
-	font-weight: 600;
-	font-size: 25px;
-	line-height: 38px;
-	color: #f8f8ff;
+.spec-input:focus {
+  border-color: #2d7a4f;
+  background: #fff;
 }
 
-.user-page .menu-box img {
-	width: 25px;
+.spec-input::placeholder {
+  color: #ccc;
 }
 
-.user-page .menu-box span {
-	margin-left: 30px;
-	font-family: 'Poppins';
-	font-style: normal;
-	font-weight: 600;
-	font-size: 25px;
-	line-height: 38px;
-	color: #000000;
+/* ── Textarea ── */
+.spec-textarea {
+  height: 90px;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-family: "Jost", sans-serif;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.2s;
+  resize: none;
+  line-height: 1.6;
+  width: 100%;
 }
 
-.user-page .settings {
-	width: 95%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+.spec-textarea:focus {
+  border-color: #2d7a4f;
+  background: #fff;
 }
 
-.user-page .settings .input-frame {
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+.spec-textarea::placeholder {
+  color: #ccc;
 }
 
-.user-page .settings .short-input {
-	width: 49%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
+/* ── Save Box ── */
+.save-box {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
 }
 
-.user-page .settings .long-input {
-	width: 100%;
-	height: auto;
-	display: flex;
-	flex-direction: column;
-}
-.user-page .settings .spec-label {
-	font-family: 'Source Serif Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 25px;
-	color: #f8f8ff;
-}
-
-.user-page .settings .spec-input {
-	position: relative;
-	margin-top: 10px;
-	padding-left: 20px;
-	width: 100%;
-	height: 54px;
-	border: none;
-	background: #f7f7f7;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 5px;
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 15px;
-	line-height: 26px;
-	color: #4f547b;
+.save-box .MuiButton-root {
+  height: 42px;
+  padding: 0 28px;
+  border-radius: 21px;
+  background: #2d7a4f;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  transition:
+    background 0.22s,
+    transform 0.18s;
 }
 
-.user-page .settings .spec-textarea {
-	position: relative;
-	margin-top: 10px;
-	padding: 20px;
-	width: 100%;
-	height: 200px;
-	border: none;
-	background: #f7f7f7;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 5px;
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 15px;
-	line-height: 26px;
-	color: #4f547b;
+.save-box .MuiButton-root:hover {
+  background: #1a5235;
+  transform: scale(1.03);
 }
 
-.user-page .settings .member-media-frame {
-	margin-top: 25px;
-	position: relative;
-	padding: 10px;
-	width: 100%;
-	height: auto;
-	display: flex;
-	border-radius: 5px;
+/* ========== RIGHT ========== */
+.my-page-right {
+  width: 280px;
+  flex-shrink: 0;
 }
 
-.user-page .settings .member-media-frame .mb-image {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
+/* ── Order Info Box ── */
+.order-info-box {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e8eaec;
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.user-page .settings .media_change-box {
-	position: relative;
-	margin-left: 20px;
-	width: auto;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
+/* ── User Image ── */
+.order-user-img {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin-bottom: 14px;
 }
 
-.user-page .settings .media-change-box span {
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 18px;
-	color: #140342;
+.order-user-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #c8e6c9;
+  display: block;
+  background: #e8f5e9;
 }
 
-.user-page .settings .media-change-box p {
-	margin: 10px 0px 14px 0px;
-	font-family: 'GT Walsheim Pro';
-	font-style: normal;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 16px;
-	color: #4f547b;
+.order-user-icon-box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8eaec;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.user-page .settings .up-del-box {
-	position: relative;
-	width: 37px;
-	height: 37px;
-	display: flex;
-	background: #cbcbcb;
-	border-radius: 8px;
-	justify-content: center;
-	align-items: center;
+.order-user-icon-box img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
-.user-page .settings .up-del-box input {
-	position: absolute;
-	width: 20px;
-	height: 16px;
-	padding: 0;
-	background: red;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
+/* ── Name & Prof ── */
+.order-user-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1a3a2a;
+  text-align: center;
+  margin-bottom: 4px;
+  display: block;
 }
 
-.user-page .settings .save-box {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 25px;
+.order-user-prof {
+  font-size: 12px;
+  color: #aaa;
+  text-align: center;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ── Social Media ── */
+.user-media-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0 14px;
+  padding: 14px 0;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+}
+
+.user-media-box svg {
+  width: 22px;
+  height: 22px;
+  color: #aaa;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+
+.user-media-box svg:hover {
+  color: #2d7a4f;
+  transform: scale(1.15);
+}
+
+/* ── Description ── */
+.user-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: #888;
+  text-align: center;
+  line-height: 1.7;
+  padding: 0 8px;
 }

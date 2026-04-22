@@ -1,94 +1,206 @@
-.foot-desc-txt {
-  margin-top: 22px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
-}
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap");
 
-.sns-context {
-  margin-top: 17px;
-  width: 137px;
+/* ========== FOOTER WRAPPER ========== */
+.footer-wrapper {
+  width: 100%;
+  min-height: 500px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  background: #143135;
+  background-size: cover;
 }
 
+/* ========== LOGO ========== */
+.footer-logo {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 300;
+  color: #f0ece4;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+/* ========== DESC TEXT ========== */
+.footer-desc-txt {
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #a8b5b3;
+  line-height: 1.8;
+  letter-spacing: 0.3px;
+  max-width: 260px;
+  margin-bottom: 24px;
+}
+
+/* ========== SOCIAL ICONS ========== */
+.sns-context {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.sns-context a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(168, 181, 179, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a8b5b3;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.sns-context a:hover {
+  border-color: #c9b99a;
+  color: #f0ece4;
+  background: rgba(201, 185, 154, 0.08);
+}
+
+.sns-context a svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ========== CATEGORY TITLE ========== */
 .foot-category-title {
-  width: 106px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 34px;
-  color: #c5c8c9;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #f0ece4;
+  margin-bottom: 20px;
 }
 
+/* ========== CATEGORY LINKS ========== */
 .foot-category-link {
-  margin-top: 20px;
-  height: 170px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 170px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
+  gap: 12px;
 }
 
 .foot-category-link a {
-  color: #e3c08d;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #a8b5b3;
   text-decoration: none;
-  cursor: pointer;
+  letter-spacing: 0.3px;
+  position: relative;
+  width: fit-content;
+  transition: color 0.25s ease;
 }
 
-.find-us {
-  display: flex;
-  flex-direction: row;
-}
-
-.find-us span {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 34px;
-  color: #c5c8c9;
-}
-
-.find-us div {
-  margin-left: 10px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
-}
-
-.copyright-txt {
-  margin-top: 17px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 34px;
-  color: #e3c08d;
-}
-
-.foot-category-title:after {
-  display: block;
+.foot-category-link a::after {
   content: "";
-  border-bottom: solid 2px #d7b686;
-  transform: scaleX(0);
-  transition: transform 250ms ease-in-out;
-  transform-origin: 0% 50%;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #c9b99a;
+  transition: width 0.3s ease;
 }
 
-.foot-category-title:hover:after {
-  transform: scaleX(1);
+.foot-category-link a:hover {
+  color: #f0ece4;
+}
+
+.foot-category-link a:hover::after {
+  width: 100%;
+}
+
+.foot-category-link a.active {
+  color: #f0ece4;
+}
+
+/* ========== NEWSLETTER ========== */
+.newsletter-text {
+  font-family: "Jost", sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #7a8f8d;
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+  max-width: 220px;
+  margin-bottom: 16px;
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(168, 181, 179, 0.25);
+  overflow: hidden;
+  width: 240px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  background: #e2e2e2;
+  border: none;
+  outline: none;
+  padding: 11px 14px;
+  font-family: "Jost", sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #f0ece4;
+  letter-spacing: 0.3px;
+}
+
+.newsletter-form input::placeholder {
+  color: #5a6e6c;
+}
+
+.newsletter-form button {
+  width: 42px;
+  height: 42px;
+  background-color: #1e4a50;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f0ece4;
+  flex-shrink: 0;
+  transition: background-color 0.25s ease;
+}
+
+.newsletter-form button:hover {
+  background-color: #2a6068;
+}
+
+.newsletter-form button svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ========== DIVIDER ========== */
+.footer-divider {
+  border: 1px solid #a8b5b3;
+  width: 100%;
+  opacity: 0.2;
+  margin-top: 80px;
+}
+
+/* ========== COPYRIGHT ========== */
+.copyright-txt {
+  font-family: "Jost", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #5a6e6c;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-top: 24px;
 }

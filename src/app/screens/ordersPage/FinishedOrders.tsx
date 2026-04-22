@@ -1,94 +1,106 @@
 import React from "react";
 import { TabPanel } from "@mui/lab";
-import { Box, Button, Stack } from "@mui/material";
 
-import { useSelector } from "react-redux";
-import { createSelector } from "reselect";
-import { retrieveFinishedOrders } from "./selector";
-import { Product } from "../../../lib/types/product";
-import ProductService from "../../services/ProductService";
-import { ProductCollection } from "../../../lib/enums/product.enum";
-import { serverApi } from "../../../lib/config";
-import { Order, OrderItem } from "../../../lib/types/orders";
+interface Product {
+  name: string;
+  emoji: string;
+  price: number;
+  qty: number;
+}
 
-/** REDUX SELECTOR */
+interface Order {
+  id: string;
+  date: string;
+  products: Product[];
+  delivery: number;
+}
 
-const finishedOrdersRetriever = createSelector(
-  retrieveFinishedOrders,
-  (finishedOrders) => ({ finishedOrders }),
-);
+const finishedOrders: Order[] = [
+  {
+    id: "#ORD-2026-003",
+    date: "Apr 20, 2026",
+    products: [
+      { name: "Red Rose", emoji: "🌹", price: 30, qty: 3 },
+      { name: "Daisy Bunch", emoji: "🌼", price: 22, qty: 2 },
+    ],
+    delivery: 6,
+  },
+  {
+    id: "#ORD-2026-006",
+    date: "Apr 21, 2026",
+    products: [
+      { name: "Pink Tulip Vase", emoji: "🌷", price: 52, qty: 1 },
+      { name: "Pink Rose", emoji: "🌹", price: 28, qty: 2 },
+    ],
+    delivery: 6,
+  },
+];
 
 export default function FinishedOrders() {
-  //Retriever
-  const { finishedOrders } = useSelector(finishedOrdersRetriever);
-
   return (
-    <TabPanel value={"3"}>
-      <Stack>
-        {finishedOrders?.map((order: Order) => {
-          return (
-            <Box key={order._id} className={"order-main-box"}>
-              <Box className={"order-box-scroll"}>
-                {order?.orderItems?.map((item: OrderItem) => {
-                  const product: Product = order.productData.filter(
-                    (ele: Product) => item.productId === ele._id,
-                  )[0]; //bu aynan orderItem ga tegishli bulgan productni qulga ob beradi.
-                  const imagePath = `${serverApi}/${product.productImages[0]}`;
-                  return (
-                    <Box key={item._id} className={"orders-name-price"}>
-                      <img
-                        src={imagePath}
-                        className={"order-dish-img"}
-                        alt=""
-                      />
-                      <p className={"title-dish"}>{product.productName}</p>
-                      <Box className={"price-box"}>
-                        <p style={{ marginRight: "15px" }}>${item.itemPrice}</p>
-                        <img src={"/icons/close.svg"} />
-                        <p style={{ margin: "0 15px" }}>{item.itemQuantity}</p>
-                        <img src={"/icons/pause.svg"} />
-                        <p style={{ marginLeft: "15px" }}>
-                          ${item.itemQuantity * item.itemPrice}
-                        </p>
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </Box>
+    <TabPanel value={"3"} sx={{ padding: 0 }}>
+      {finishedOrders.map((order) => {
+        const productTotal = order.products.reduce(
+          (s, p) => s + p.price * p.qty,
+          0,
+        );
+        const grand = productTotal + order.delivery;
+        return (
+          <div key={order.id} className="order-card">
+            <div className="order-top">
+              <div>
+                <div className="order-id">{order.id}</div>
+                <div className="order-date">{order.date}</div>
+              </div>
+              <div className="status-badge finished">
+                <span className="status-dot finished" />
+                Finished
+              </div>
+            </div>
 
-              <Box className={"total-price-box"}>
-                <Box className={"box-total"}>
-                  <p>Product price</p>
-                  <p style={{ marginLeft: "15px" }}>
-                    ${order.orderTotal - order.orderDelivery}
-                  </p>
-                  <img src={"/icons/plus.svg"} style={{ margin: "0 15px" }} />
-                  <p>Delivery cost</p>
-                  <p style={{ marginLeft: "15px" }}>${order.orderDelivery}</p>
-                  <img src={"/icons/pause.svg"} style={{ margin: "0 15px" }} />
-                  <p>Total</p>
-                  <p style={{ marginLeft: "15px" }}>${order.orderTotal}</p>
-                </Box>
-              </Box>
-            </Box>
-          );
-        })}
+            <div className="order-products">
+              {order.products.map((p, i) => (
+                <div key={i} className="order-product-row">
+                  <div className="order-product-img">{p.emoji}</div>
+                  <div className="order-product-info">
+                    <div className="order-product-name">{p.name}</div>
+                    <div className="order-product-qty">× {p.qty}</div>
+                  </div>
+                  <div className="order-product-price">
+                    ${(p.price * p.qty).toFixed(2)}
+                  </div>
+                </div>
+              ))}
+            </div>
 
-        {!finishedOrders ||
-          (finishedOrders.length === 0 && (
-            <Box
-              display={"flex"}
-              flexDirection={"row"}
-              justifyContent={"center"}
-            >
-              <img
-                src="/icons/noimage-list.svg"
-                style={{ width: 300, height: 300 }}
-                alt=""
-              />
-            </Box>
-          ))}
-      </Stack>
+            <div className="order-totals">
+              <div className="totals-row">
+                <span className="totals-label">Products</span>
+                <span className="totals-val">${productTotal.toFixed(2)}</span>
+              </div>
+              <div className="totals-row">
+                <span className="totals-label">Delivery</span>
+                <span className="totals-val">
+                  +${order.delivery.toFixed(2)}
+                </span>
+              </div>
+              <div className="totals-row grand">
+                <span className="totals-label">Total</span>
+                <span className="totals-val">${grand.toFixed(2)}</span>
+              </div>
+            </div>
+
+            <div className="progress-bar">
+              <div className="progress-fill finished" />
+            </div>
+
+            <div className="order-footer">
+              <span className="progress-label">Delivered — 100%</span>
+              <button className="action-btn review">Leave Review</button>
+            </div>
+          </div>
+        );
+      })}
     </TabPanel>
   );
 }
