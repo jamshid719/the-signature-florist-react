@@ -7,10 +7,9 @@ export function Settings() {
     <Box className={"settings"}>
       {/* ── Image Upload ── */}
       <Box className={"member-media-frame"}>
-        <img src={"/icons/default-user.svg"} className={"mb-image"} />
+        <img src={"/img/default-user.png"} className={"mb-image"} />
         <div className={"media-change-box"}>
           <span>Upload image</span>
-          <p>JPG, JPEG, PNG formats only!</p>
           <div className={"up-del-box"}>
             <Button component="label" className={"upload-btn"}>
               <CloudDownloadIcon />
@@ -20,6 +19,7 @@ export function Settings() {
                 accept="image/jpg,image/jpeg,image/png"
               />
             </Button>
+            <p>JPG, JPEG, PNG formats only!</p>
           </div>
         </div>
       </Box>

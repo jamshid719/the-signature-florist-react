@@ -51,7 +51,7 @@ export default function UserPage() {
                     src={
                       authMember?.memberImage
                         ? `${serverApi}/${authMember?.memberImage}`
-                        : "/icons/default-user.svg"
+                        : "/img/default-user.png"
                     }
                     className={"order-user-avatar"}
                     alt="avatar"
@@ -67,13 +67,9 @@ export default function UserPage() {
                     />
                   </div>
                 </div>
-                <span className={"order-user-name"}>
-                  {authMember?.memberNick}
-                </span>
-                <span className={"order-user-prof"}>
-                  {authMember?.memberType}
-                </span>
-                <span className={"order-user-prof"}>
+                <span className={"order-user-name"}>Floyd</span>
+                <span className={"order-user-prof"}>User</span>
+                <span className={"order-user-address"}>
                   {authMember?.memberAddress
                     ? authMember?.memberAddress
                     : "no address"}
