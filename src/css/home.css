@@ -144,7 +144,7 @@
 
 /* ── Single Card ────────────────────────────────────── */
 .card {
-  flex: 1 1 0;
+  flex: 0 0 280px;
   min-width: 0;
   background: transparent !important;
   box-shadow: none !important;
@@ -199,7 +199,7 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +212,7 @@
 }
 
 .wishlist-btn:hover {
-  background: #fff5f4;
+  background: rgba(255, 245, 244, 0.8);
   transform: scale(1.1);
 }
 
@@ -237,6 +237,7 @@
   border-top: none !important;
   --CardOverflow-radius: 0px;
   --CardOverflow-offset: 0px;
+  max-width: 280px !important;
 }
 
 /* Product name — Playfair serif */
@@ -251,10 +252,15 @@
   text-overflow: ellipsis;
 }
 
+.product-size {
+  font-family: serif;
+  font-weight: 500;
+}
+
 /* Ingredients — light Inter */
 .product-ingredients {
   font-family: "Inter", sans-serif !important;
-  font-size: 0.77rem !important;
+  font-size: 0.9rem !important;
   font-weight: 300 !important;
   color: #8a8680 !important;
   line-height: 1.4 !important;
@@ -270,7 +276,7 @@
   font-weight: 600 !important;
   color: #1a1714 !important;
   white-space: nowrap;
-  flex-shrink: 0;
+
   padding-top: 2px;
 }
 
@@ -349,18 +355,44 @@
   object-fit: cover;
   display: block;
   transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: scale(1);
 }
 
 .new-products-frame .card:hover .card-aspect img {
   transform: scale(1.06);
 }
 
+.new-products-frame .product-detail {
+  padding: 14px 16px 16px;
+  background: #ffffff;
+  border-radius: 0 0 12px 12px;
+  flex: 0; /* ← 1 emas, 0 */
+  width: 100%;
+}
+
+.new-products-frame .card-img-wrap {
+  position: relative;
+  margin: 12px 12px 0 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  width: calc(100% - 24px);
+}
+
+.new-products-frame .product-detail {
+  width: 100%;
+  padding: 14px 16px 16px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 0 12px 12px;
+  flex: 1 !important;
+}
+
 /* Info */
 .new-products-frame .info {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .new-products-frame .title {
@@ -377,6 +409,14 @@
   font-weight: 600;
   color: #1a1714;
   line-height: 1.4;
+}
+
+.new-products-frame .title {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1714;
+  line-height: 1.3;
 }
 
 .new-products-frame .no-data {
@@ -502,6 +542,7 @@
   gap: 20px;
   align-items: stretch;
   width: 100%;
+  justify-content: center;
 }
 
 /* ── Card hover ─────────────────────────────────── */

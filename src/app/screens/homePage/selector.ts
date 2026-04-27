@@ -6,14 +6,14 @@ import HomePage from "./index";
 const selectHomePage = (state: AppRootState) => state.homePage;
 
 //va malumotlarni qabul qilish(retrieve)
-export const retrievePopularDishes = createSelector(
+export const retrievePopularProducts = createSelector(
   selectHomePage,
-  (homePage: HomePageState) => homePage.popularDishes,
+  (homePage: HomePageState) => homePage.popularProducts,
 );
 
-export const retrieveNewDishes = createSelector(
+export const retrieveNewProducts = createSelector(
   selectHomePage,
-  (homePage: HomePageState) => homePage.newDishes,
+  (homePage: HomePageState) => homePage.newProducts,
 );
 
 export const retrieveTopUsers = createSelector(

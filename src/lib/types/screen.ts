@@ -12,8 +12,8 @@ export interface AppRootState {
 /** HOMEPAGE */
 export interface HomePageState {
   //homepageda 3 toifadagi datalarga ehtiyoj bor.
-  popularDishes: Product[];
-  newDishes: Product[];
+  popularProducts: Product[];
+  newProducts: Product[];
   topUsers: Member[];
 }
 

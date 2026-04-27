@@ -9,64 +9,24 @@ import {
 } from "@mui/joy";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import { createSelector } from "reselect";
+import { retrieveTopUsers } from "./selector";
+import { useSelector } from "react-redux";
+import { Member } from "../../../lib/types/member";
+import { serverApi } from "../../../lib/config";
+import { Height } from "@mui/icons-material";
 
-interface Member {
-  _id: string;
-  memberNick: string;
-  memberSpecialty: string;
-  memberRating: number;
-  memberReviews: number;
-  memberImage: string;
-}
+/** REDUX SELECTOR */
 
-interface ActiveUsersProps {
-  topUsers: Member[];
-  serverApi: string;
-}
+const topUsersRetriever = createSelector(retrieveTopUsers, (topUsers) => ({
+  topUsers,
+}));
 
-const MOCK_USERS: Member[] = [
-  {
-    _id: "1",
-    memberNick: "Julian Vance",
-    memberSpecialty: "Orchid Specialist",
-    memberRating: 4.9,
-    memberReviews: 120,
-    memberImage:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
-  },
-  {
-    _id: "2",
-    memberNick: "Eleanor Vance",
-    memberSpecialty: "Boutique Designer",
-    memberRating: 5.0,
-    memberReviews: 245,
-    memberImage:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80",
-  },
-  {
-    _id: "3",
-    memberNick: "Marcus Thorne",
-    memberSpecialty: "Wildflower Expert",
-    memberRating: 4.8,
-    memberReviews: 89,
-    memberImage:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&q=80",
-  },
-  {
-    _id: "4",
-    memberNick: "Sofia Chen",
-    memberSpecialty: "Ikebana Specialist",
-    memberRating: 4.9,
-    memberReviews: 156,
-    memberImage:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
-  },
-];
+export default function ActiveUsers() {
+  //Retriever
+  const { topUsers } = useSelector(topUsersRetriever);
+  console.log("topUsers:", topUsers);
 
-export default function ActiveUsers({
-  topUsers = MOCK_USERS,
-  serverApi = "",
-}: Partial<ActiveUsersProps>) {
   return (
     <div className="active-users-frame">
       <Container>
@@ -82,9 +42,9 @@ export default function ActiveUsers({
             <CssVarsProvider>
               {topUsers.length !== 0 ? (
                 topUsers.map((member: Member) => {
-                  const imagePath = serverApi
+                  const imagePath = member.memberImage
                     ? `${serverApi}/${member.memberImage}`
-                    : member.memberImage;
+                    : "/img/default-user.png";
 
                   return (
                     <Card
@@ -92,8 +52,9 @@ export default function ActiveUsers({
                       variant="outlined"
                       className="au-card"
                       style={{
-                        flex: "1 1 0",
-                        minWidth: 0,
+                        flex: "0 1 300px",
+                        maxWidth: "300px",
+                        minWidth: "220px",
                         backgroundColor: "#ffffff",
                         border: "1px solid #ebebeb",
                         borderRadius: "16px",
@@ -124,14 +85,14 @@ export default function ActiveUsers({
                         <Box
                           style={{
                             position: "relative",
-                            width: "90px",
-                            height: "90px",
+                            width: "138px",
+                            height: "138px",
                           }}
                         >
                           <AspectRatio
                             ratio="1"
                             style={{
-                              width: "90px",
+                              width: "150px",
                               borderRadius: "50%",
                               overflow: "hidden",
                               border: "3px solid #ffffff",
@@ -174,7 +135,7 @@ export default function ActiveUsers({
 
                       {/* ── Specialty ──────────────────────────── */}
                       <Typography className="au-member-specialty">
-                        {member.memberSpecialty}
+                        {member.memberDesc ?? `"no description"`}
                       </Typography>
 
                       {/* ── Rating ─────────────────────────────── */}
@@ -186,10 +147,7 @@ export default function ActiveUsers({
                       >
                         <StarRoundedIcon className="au-star-icon" />
                         <Typography className="au-rating-value">
-                          {member.memberRating.toFixed(1)}
-                        </Typography>
-                        <Typography className="au-rating-count">
-                          ({member.memberReviews} Reviews)
+                          {member.memberPoints}
                         </Typography>
                       </Stack>
                     </Card>

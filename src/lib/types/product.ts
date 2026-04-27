@@ -1,5 +1,6 @@
 import {
   ProductCollection,
+  ProductItemSize,
   ProductSize,
   ProductStatus,
   ProductVolume,
@@ -15,6 +16,7 @@ export interface Product {
   productLeftCount: number;
   productSize: ProductSize;
   productVolume: ProductVolume;
+  productItemSize: ProductItemSize;
   productDesc?: string;
   productImages: string[];
   productViews: number;

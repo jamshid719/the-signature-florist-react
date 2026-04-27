@@ -1,39 +1,30 @@
 import React from "react";
 import { Box, Container, Stack } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DescriptionOutLinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import CardOverflow from "@mui/joy/CardOverflow";
+import { retrieveNewProducts, retrievePopularProducts } from "./selector";
+import { createSelector } from "reselect";
+import { useSelector } from "react-redux";
+import { Product } from "../../../lib/types/product";
+import { serverApi } from "../../../lib/config";
 
-const newDishes = [
-  {
-    productName: "Autumn Solace",
-    productPrice: 42,
-    imagePath:
-      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=500&q=85",
-  },
-  {
-    productName: "Morning Dew",
-    productPrice: 38,
-    imagePath:
-      "https://images.unsplash.com/photo-1487530811015-780780b6c2c1?w=500&q=85",
-  },
-  {
-    productName: "Sunset Bloom",
-    productPrice: 55,
-    imagePath:
-      "https://images.unsplash.com/photo-1470509037663-253d25da7e80?w=500&q=85",
-  },
-  {
-    productName: "Silk Sakura",
-    productPrice: 48,
-    imagePath:
-      "https://images.unsplash.com/photo-1606041011872-596597976b25?w=500&q=85",
-  },
-];
+/** REDUX SELECTOR */
+
+const newProductsRetriever = createSelector(
+  retrieveNewProducts,
+  (newProducts) => ({ newProducts }),
+);
 
 export default function NewArrivals() {
+  //Retriever
+  const { newProducts } = useSelector(newProductsRetriever);
+  console.log("newProducts:", newProducts);
+
   return (
     <div className="new-products-frame">
       <Container>
@@ -46,11 +37,12 @@ export default function NewArrivals() {
 
           <Stack className="cards-frame">
             <CssVarsProvider>
-              {newDishes.length !== 0 ? (
-                newDishes.map((ele, index) => {
+              {newProducts.length !== 0 ? (
+                newProducts.map((product: Product) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
                   return (
                     <Card
-                      key={index}
+                      key={product._id}
                       variant="outlined"
                       className="card"
                       sx={{
@@ -69,7 +61,7 @@ export default function NewArrivals() {
                           "box-shadow 0.25s ease, transform 0.25s ease",
                         "&:hover": {
                           boxShadow: "0 8px 28px rgba(0,0,0,0.1) !important",
-                          transform: "translateY(-4px)",
+
                           border: "1px solid #e8e4e0 !important",
                         },
                       }}
@@ -97,33 +89,48 @@ export default function NewArrivals() {
                             "--AspectRatio-radius": "10px",
                           }}
                         >
-                          <img src={ele.imagePath} alt={ele.productName} />
+                          <img src={imagePath} alt="" />
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              bottom: "8px",
+                              right: "8px",
+                              display: "flex",
+                              alignItems: "center",
+                              color: "rgba(255,255,255,0.9)",
+                              textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              gap: "4px",
+                            }}
+                          >
+                            {product.productViews}
+                            <VisibilityIcon
+                              sx={{ fontSize: 30, marginLeft: "5px" }}
+                            />
+                          </Box>
                         </AspectRatio>
                       </CardOverflow>
 
                       {/* ── Product info ────────────────────────── */}
-                      <CardOverflow
-                        variant="soft"
-                        className="product-detail"
-                        sx={{
-                          p: "14px 16px 16px !important",
-                          m: "0 !important",
-                          background: "#ffffff !important",
-                          border: "none !important",
-                          flex: "1 !important",
-                          "--CardOverflow-radius": "0px",
-                          "--CardOverflow-offset": "0px",
-                        }}
-                      >
+                      <div className="product-detail">
                         <Stack className="info">
                           <Typography className="title">
-                            {ele.productName}
+                            {product.productName}
                           </Typography>
                           <Typography className="price">
-                            ${ele.productPrice.toFixed(2)}
+                            ${product.productPrice}
                           </Typography>
                         </Stack>
-                      </CardOverflow>
+                        <Typography
+                          className="product-ingredients"
+                          startDecorator={<DescriptionOutLinedIcon />}
+                          textColor="neutral.300"
+                          mt={1}
+                        >
+                          {product.productDesc}
+                        </Typography>
+                      </div>
                     </Card>
                   );
                 })

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Statistics from "./Statistics";
 import Advertisement from "./Advertisement";
-import NewDishes from "./NewArrivals";
-import PopularDishes from "./PopularProducts";
+// import NewDishes from "./NewArrivals";
+// import PopularDishes from "./PopularProducts";
 import ActiveUsers from "./ActiveUsers";
 import Events from "./Events";
 import "../../../css/home.css";
@@ -10,8 +10,8 @@ import "../../../css/home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
-import { retrievePopularDishes } from "./selector";
+import { setNewProducts, setPopularProducts, setTopUsers } from "./slice";
+import { retrievePopularProducts } from "./selector";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
@@ -20,13 +20,13 @@ import { Member } from "../../../lib/types/member";
 import PopularProducts from "./PopularProducts";
 import NewArrivals from "./NewArrivals";
 
-/** REDUX SLICE & SELECTOR */
+/** REDUX SLICE*/
 
 const actionDispatch = (dispatch: Dispatch) => ({
-  setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
-  setNewDishes: (data: Product[]) => dispatch(setNewDishes(data)),
+  setPopularProducts: (data: Product[]) => dispatch(setPopularProducts(data)),
+  setNewProducts: (data: Product[]) => dispatch(setNewProducts(data)),
   setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
-}); // bu yerda setPopularDishes: kommanda, dispatch(setPopularDishes(data)) dispatch ichidagi esa action(slice.ts dagi).
+}); // bu yerda setPopularProducts: kommanda, dispatch(setPopularProducts(data)) dispatch ichidagi esa action(slice.ts dagi).
 
 //TODO: Selectorni qaerda ishlatmoqchi bulsak usha yerda call qilamiz. bu yerda yozish kkmas.(masalan: Sectional componentlarda)
 /* Yuklangan malumotni tugridan tugri shu yerdan qabul qb, vu wu yerda ishlatsak.
@@ -36,7 +36,7 @@ const popularDishesRetriever = createSelector(
 );*/
 
 export default function HomePage() {
-  const { setPopularDishes, setNewDishes, setTopUsers } =
+  const { setPopularProducts, setNewProducts, setTopUsers } =
     actionDispatch(useDispatch()); //call
 
   //TODO: Selectorni qaerda ishlatmoqchi bulsak usha yerda call qilamiz. bu yerda yozish kkmas.(masalan: Sectional componentlarda)
@@ -51,27 +51,31 @@ export default function HomePage() {
         page: 1,
         limit: 4,
         order: "productViews",
-        productCollection: ProductCollection.DISH,
+        // productCollection: ProductCollection.BOUQUET
       })
       .then((data) => {
-        setPopularDishes(data); //Redux store ga data ni yozish(slice)
+        const filtered = data.filter(
+          (ele) => ele.productCollection !== ProductCollection.OTHER,
+        );
+        setPopularProducts(filtered);
+        setPopularProducts(data); //Redux store ga data ni yozish(slice)
       })
       .catch((err) => console.log(err));
 
-    //Fresh menu
+    //New Arrivals
     product
       .getProducts({
         page: 1,
         limit: 4,
         order: "createdAt",
-        //productCollection: ProductCollection.DISH, => quymasa ham buladi.(ohirgi qushilgan drinklarni ham ob berish un)
+        //productCollection: ProductCollection.BOUQUET, => quymasa ham buladi.(ohirgi qushilgan tree larni ham ob berish un)
       })
       .then((data) => {
-        setNewDishes(data); //Redux store ga data ni yozish(slice)
+        setNewProducts(data); //Redux store ga data ni yozish(slice)
       })
       .catch((err) => console.log(err));
 
-    //Active Users
+    //Top Users
     const member = new MemberService();
     member
       .getTopUsers()
