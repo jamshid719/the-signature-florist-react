@@ -6,9 +6,9 @@ import HomePage from ".";
 const selectProductsPage = (state: AppRootState) => state.productsPage;
 
 //va malumotlarni qabul qilish(retrieve)
-export const retrieveRestaurant = createSelector(
+export const retrieveShop = createSelector(
   selectProductsPage,
-  (productsPage: ProductsPageState) => productsPage.restaurant,
+  (productsPage: ProductsPageState) => productsPage.shop,
 );
 
 export const retrieveChosenProduct = createSelector(

@@ -20,11 +20,28 @@ class ProductService {
       if (input.productCollection)
         url += `&productCollection=${input.productCollection}`;
       if (input.search) url += `&search=${input.search}`;
+      if (input.excludeCollection)
+        url += `&excludeCollection=${input.excludeCollection}`;
       console.log("Full URL:", url);
       const result = await axios.get(url); //url 'get' method bulganligi un.
       return result.data;
     } catch (err) {
       console.log("Error, getProducts:", err);
+      throw err;
+    }
+  }
+
+  public async getProductsExceptOther(
+    input: ProductInquiry,
+  ): Promise<Product[]> {
+    try {
+      let url = `${this.path}/product/all-except-other?order=${input.order}&page=${input.page}&limit=${input.limit}`;
+      if (input.search) url += `&search=${input.search}`;
+      console.log("Full URL:", url);
+      const result = await axios.get(url);
+      return result.data;
+    } catch (err) {
+      console.log("Error, getProductsExceptOther:", err);
       throw err;
     }
   }

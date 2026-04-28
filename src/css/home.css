@@ -283,7 +283,7 @@
 /* ── Empty state ────────────────────────────────────── */
 .no-data {
   font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
+  font-size: 28px;
   color: #9a9690;
   text-align: center;
   padding: 60px 0;
@@ -421,7 +421,7 @@
 
 .new-products-frame .no-data {
   font-family: "Inter", sans-serif;
-  font-size: 14px;
+  font-size: 28px;
   color: #9a9690;
   text-align: center;
   padding: 60px 0;
@@ -599,7 +599,7 @@
 /* ── Empty state ────────────────────────────────── */
 .active-users-frame .au-no-data {
   font-family: "Inter", sans-serif;
-  font-size: 14px;
+  font-size: 28px;
   color: #9a9690;
   text-align: center;
   padding: 60px 0;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Stack, Box, Typography } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
@@ -11,13 +11,66 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { retrieveChosenProduct, retrieveShop } from "./selector";
+import { Member } from "../../../lib/types/member";
+import { setChosenProduct, setShop } from "./slice";
+import { Product } from "../../../lib/types/product";
+import { useParams } from "react-router-dom";
+import ProductService from "../../services/ProductService";
+import MemberService from "../../services/MemberService";
+import { serverApi } from "../../../lib/config";
+
+/** REDUX SLICE & SELECTOR */
+
+//slice
+const actionDispatch = (dispatch: Dispatch) => ({
+  setShop: (data: Member) => dispatch(setShop(data)),
+  setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
+});
+
+//selector
+const shopRetriever = createSelector(retrieveShop, (shop) => ({ shop }));
+
+const chosenProductRetriever = createSelector(
+  retrieveChosenProduct,
+  (chosenProduct) => ({ chosenProduct }),
+);
+
 export default function ChosenProduct() {
+  //hook
+  const { productId } = useParams<{ productId: string }>();
+  console.log("productId:", productId);
+
+  const { chosenProduct } = useSelector(chosenProductRetriever); //call
+  const { shop } = useSelector(shopRetriever);
+  const { setShop, setChosenProduct } = actionDispatch(useDispatch()); // call
+
   const product = {
     title: "Bright bouquet of beauty peonies",
     oldPrice: 50,
     newPrice: 45,
     desc: "Letius ultricies sociosqu lectus praesent ut. Magnis accumsan justo turpis nascetur consectetur feugiat hac. Tortor efficitur non aenean lacus vivamus habitant class platea conubia scelerisque laoreet.",
   };
+
+  useEffect(() => {
+    const product = new ProductService();
+    product
+      .getProduct(productId)
+      .then((data) => setChosenProduct(data))
+      .catch((err) => console.log(err));
+
+    //product malumotidan tashqari restaurant malumoti ham kk.
+    const member = new MemberService();
+    member
+      .getShop()
+      .then((data) => setShop(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  if (!chosenProduct) return null;
 
   return (
     <div className={"chosen-product"}>
@@ -31,15 +84,14 @@ export default function ChosenProduct() {
             modules={[FreeMode, Navigation, Thumbs]}
             className="swiper-area"
           >
-            {["/img/cutlet.webp", "/img/kebab-fresh.webp"].map(
-              (ele: string, index: number) => {
-                return (
-                  <SwiperSlide key={index}>
-                    <img className="slider-image" src={ele} />
-                  </SwiperSlide>
-                );
-              },
-            )}
+            {chosenProduct?.productImages.map((ele: string, index: number) => {
+              const imagePath = `${serverApi}/${ele}`;
+              return (
+                <SwiperSlide key={index}>
+                  <img className="slider-image" src={imagePath} />
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
         </Stack>
         <div className={"product-detail"}>
@@ -48,7 +100,7 @@ export default function ChosenProduct() {
               <div className={"product-detail-card"}>
                 {/* Title */}
                 <Typography className={"product-detail-title"}>
-                  {product.title}
+                  {chosenProduct.productName}
                 </Typography>
 
                 {/* Price */}
@@ -58,7 +110,7 @@ export default function ChosenProduct() {
                   alignItems={"center"}
                 >
                   <span className={"product-detail-new-price"}>
-                    ${product.newPrice}.00
+                    ${chosenProduct.productPrice}.00
                   </span>
                 </Stack>
 
@@ -67,7 +119,7 @@ export default function ChosenProduct() {
 
                 {/* Description */}
                 <Typography className={"product-detail-desc"}>
-                  {product.desc}
+                  {chosenProduct.productDesc}
                 </Typography>
 
                 {/* Actions */}
@@ -98,6 +150,15 @@ export default function ChosenProduct() {
                     component={"button"}
                   >
                     <RemoveRedEyeIcon sx={{ fontSize: 20 }} />
+                    <span
+                      style={{
+                        marginLeft: "4px",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {chosenProduct.productViews}
+                    </span>
                   </Box>
                 </Stack>
               </div>

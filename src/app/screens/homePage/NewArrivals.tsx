@@ -12,6 +12,7 @@ import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
+import { ProductCollection } from "../../../lib/enums/product.enum";
 
 /** REDUX SELECTOR */
 
@@ -78,7 +79,27 @@ export default function NewArrivals() {
                           "--CardOverflow-offset": "0px",
                         }}
                       >
-                        <div className="product-sale">NEW</div>
+                        <div className="product-sale">
+                          {product.productCollection === ProductCollection.TREE
+                            ? product.productVolume
+                                ?.split(" ")
+                                .map(
+                                  (word, index) =>
+                                    index === 0
+                                      ? word // "3" — o'zgarmaydi
+                                      : word.charAt(0).toUpperCase() +
+                                        word.slice(1).toLowerCase(), // "YEARS" → "Years"
+                                )
+                                .join(" ")
+                            : product.productCollection ===
+                                ProductCollection.OTHER
+                              ? product.productItemSize
+                                  ?.charAt(0)
+                                  .toUpperCase() +
+                                product.productItemSize?.slice(1).toLowerCase()
+                              : product.productSize?.charAt(0).toUpperCase() +
+                                product.productSize?.slice(1).toLowerCase()}
+                        </div>
 
                         <AspectRatio
                           ratio="1"

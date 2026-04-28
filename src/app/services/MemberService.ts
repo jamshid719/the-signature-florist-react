@@ -28,15 +28,15 @@ class MemberService {
     }
   }
 
-  public async getRestaurant(): Promise<Member> {
+  public async getShop(): Promise<Member> {
     try {
-      const url = this.path + "/member/restaurant";
+      const url = this.path + "/member/shop";
 
       const result = await axios.get(url); //url 'get' method bulganligi un.
-      const restaurant: Member = result.data;
-      return restaurant; //shunday qib ham yozsak buladi.
+      const shop: Member = result.data;
+      return shop; //shunday qib ham yozsak buladi.
     } catch (err) {
-      console.log("Error, getRestaurant:", err);
+      console.log("Error, getShop:", err);
       throw err;
     }
   }

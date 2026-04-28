@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -9,76 +9,156 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Typography from "@mui/material/Typography";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
-const products = [
-  {
-    productName: "Bouquet of Red & Yellow Tulips",
-    imagePath: "/img/OnSale_florals.jpg",
-    price: 62,
-    oldPrice: null,
-    sale: false,
-  },
-  {
-    productName: "Bouquet of Red Tulips with Green Vase",
-    imagePath: "/img/tulip-red.webp",
-    price: 62,
-    oldPrice: null,
-    sale: false,
-  },
-  {
-    productName: "Bright bouquet of beauty peonies",
-    imagePath: "/img/peony.webp",
-    price: 45,
-    oldPrice: 50,
-    sale: true,
-  },
-  {
-    productName: "Easter Basket with White Flower",
-    imagePath: "/img/OnSale_florals.jpg",
-    price: 72,
-    oldPrice: 79,
-    sale: true,
-  },
-  {
-    productName: "Pink Rose with Glass Vase",
-    imagePath: "/img/rose-pink.webp",
-    price: 32,
-    oldPrice: 50,
-    sale: true,
-  },
-  {
-    productName: "Pink Tulips with Classic Vase",
-    imagePath: "/img/tulip-classic.webp",
-    price: 57,
-    oldPrice: 60,
-    sale: true,
-  },
-  {
-    productName: "Pink Tulips with Glass Vase",
-    imagePath: "/img/tulip-glass.webp",
-    price: 55,
-    oldPrice: 65,
-    sale: true,
-  },
-  {
-    productName: "Pink Tulips with White Vase",
-    imagePath: "/img/tulip-white.webp",
-    price: 40,
-    oldPrice: 42,
-    sale: true,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
+import { retrieveProducts } from "./selector";
+import { Product, ProductInquiry } from "../../../lib/types/product";
+import { setProducts } from "./slice";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { serverApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
 
-const circleCategories = [
-  { label: "All Product", imagePath: "/img/OnSale_florals.jpg" },
-  { label: "Tulips", imagePath: "/img/OnSale_florals.jpg" },
-  { label: "Rose", imagePath: "/img/cat-rose.webp" },
-  { label: "Bouquet", imagePath: "/img/cat-bouquet.webp" },
-  { label: "Hampers", imagePath: "/img/cat-hampers.webp" },
-  { label: "Collections", imagePath: "/img/cat-collections.webp" },
-];
+/** REDUX SLICE & SELECTOR */
+
+//slice
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
+});
+
+//selector
+const productsRetriever = createSelector(retrieveProducts, (products) => ({
+  products,
+}));
 
 export default function Products() {
+  const { setProducts } = actionDispatch(useDispatch());
+  const { products } = useSelector(productsRetriever);
+
+  const [productSearch, setProductSearch] = useState<ProductInquiry>({
+    page: 1,
+    limit: 8,
+    order: "createdAt",
+    productCollection: ProductCollection.BOUQUET,
+    search: "",
+  });
+
+  const [searchText, setSearchText] = useState<string>("");
+
+  useEffect(() => {
+    const product = new ProductService();
+    product
+      .getProducts(productSearch)
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+  }, [productSearch]);
+
+  useEffect(() => {
+    if (searchText === "") {
+      productSearch.search = "";
+      setProductSearch({ ...productSearch });
+    }
+  }, [searchText]); //inputdagi searchText qilgandan kn "X" bossak, bush stringa aylantirish un (yani bowqa productni izlash un) shu useEffectdan foydalanamiz.
+
+  const history = useHistory(); //kod orqali boshqa sahifaga o'tkazish.(chooseDishHandler ga ishlatamiz)
+
+  /**HANDLERS */
+
+  //searchCollectionHandler
+  const searchCollectionHandler = (collection: ProductCollection) => {
+    productSearch.page = 1; //btnlar har bosilganda, page 1 ga olib kelsin degani.
+    productSearch.productCollection = collection;
+    productSearch.excludeCollection = undefined;
+    productSearch.search = "";
+    setProductSearch({ ...productSearch }); //for working useEffect
+  };
+
+  //searchAllCollection
+  const searchAllCollectionHandler = () => {
+    const product = new ProductService();
+    product
+      .getProductsExceptOther({
+        page: 1,
+        limit: productSearch.limit,
+        order: productSearch.order,
+        search: "",
+      })
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+
+    productSearch.search = ""; // ← state ni ham tozala
+    setSearchText(""); //
+  };
+
+  //searchCollectionHandler
+  const searchRosesHandler = (search: string) => {
+    productSearch.page = 1;
+    productSearch.search = search;
+    productSearch.productCollection = ProductCollection.BOUQUET;
+    setSearchText("");
+    setProductSearch({ ...productSearch });
+  };
+
+  const searchTulipsHandler = (search: string) => {
+    productSearch.page = 1;
+    productSearch.search = search;
+    productSearch.productCollection = ProductCollection.BOUQUET;
+    setSearchText("");
+    setProductSearch({ ...productSearch });
+  };
+
+  const searchSpecialHandler = (search: string) => {
+    productSearch.page = 1;
+    productSearch.search = search;
+    productSearch.productCollection = ProductCollection.BOUQUET;
+    setSearchText("");
+    setProductSearch({ ...productSearch });
+  };
+
+  const searchRedHandler = (search: string) => {
+    productSearch.page = 1;
+    productSearch.search = search;
+    productSearch.productCollection = ProductCollection.BOUQUET;
+    setSearchText("");
+    setProductSearch({ ...productSearch });
+  };
+
+  const searchYellowHandler = (search: string) => {
+    productSearch.page = 1;
+    productSearch.search = search;
+    productSearch.productCollection = ProductCollection.BOUQUET;
+    setSearchText("");
+    setProductSearch({ ...productSearch });
+  };
+
+  //searchOrderHandler
+  const searchOrderHandler = (order: string) => {
+    productSearch.page = 1; //btnlar har bosilganda, page 1 ga olib kelsin degani.
+    productSearch.order = order;
+    setProductSearch({ ...productSearch }); //for working useEffect
+  };
+
+  //searchProductHandler
+  const searchProductHandler = () => {
+    console.log("searchText:", searchText);
+    productSearch.search = searchText;
+    setProductSearch({ ...productSearch });
+  };
+
+  //PaginationHandler
+  const PaginationHandler = (e: ChangeEvent<any>, value: number) => {
+    productSearch.page = value;
+    setProductSearch({ ...productSearch });
+  }; // bu yerda MUI bydefault 2ta qiymat beradi, ChangeEvent va value, bizga value kk ishlatishga.
+
+  // chooseDishHandler
+  const chooseDishHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  }; //history.push - bu malum bir productni bosganda chosenProductPage sahifasiga yuboradi)
+
   return (
     <div className={"products"}>
       <Container>
@@ -97,9 +177,18 @@ export default function Products() {
                 className="single-search-input"
                 name="singleResearch"
                 placeholder="Find product"
-                value=""
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") searchProductHandler();
+                }}
               />
-              <button className="search-btn-icon">
+              <button
+                className="search-btn-icon"
+                onClick={searchProductHandler}
+              >
                 <SearchIcon sx={{ fontSize: 20 }} />
               </button>
             </Stack>
@@ -112,19 +201,72 @@ export default function Products() {
               flexDirection={"row"}
               alignItems={"center"}
             >
-              {circleCategories.map((cat, index) => (
-                <button
-                  key={index}
-                  className={`circle-category-btn${index === 0 ? " active-cat" : ""}`}
-                >
-                  <div className="circle-img-wrap">
-                    <img src={cat.imagePath} alt={cat.label} />
-                    <div className="circle-overlay">
-                      <span>{cat.label}</span>
-                    </div>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchAllCollectionHandler()}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/All_Products.jpg" alt="" />
+                  <div className="circle-overlay">
+                    <span>All Products</span>
                   </div>
-                </button>
-              ))}
+                </div>
+              </button>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchRosesHandler("rose")}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/roses.jpg" alt="" />
+                  <div className="circle-overlay">
+                    <span>Roses</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchTulipsHandler("tulip")}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/assorted tulips_2.jpg" alt="" />
+                  <div className="circle-overlay">
+                    <span>Tulips</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchSpecialHandler("special")}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/Special_flowers.webp" alt="" />
+                  <div className="circle-overlay">
+                    <span>Special</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchRedHandler("red")}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/red.jpg" alt="" />
+                  <div className="circle-overlay">
+                    <span>Red</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                className="circle-category-btn active-cat"
+                onClick={() => searchYellowHandler("yellow")}
+              >
+                <div className="circle-img-wrap">
+                  <img src="/img/Yellow.jpg" alt="" />
+                  <div className="circle-overlay">
+                    <span>Yellow</span>
+                  </div>
+                </div>
+              </button>
             </Stack>
           </Stack>
 
@@ -136,45 +278,141 @@ export default function Products() {
           >
             {/* Sort + Filter row */}
             <div className="sort-filter-row">
-              <button className="filter-btn active-filter">Bouquet</button>
-              <button className="filter-btn">Vase</button>
-              <button className="filter-btn">Houseplant</button>
-              <button className="filter-btn">Tree</button>
-              <button className="filter-btn">Other</button>
-              <select className="sort-select">
+              <button
+                className={`filter-btn ${productSearch.productCollection === ProductCollection.BOUQUET ? "active-filter" : ""}`}
+                onClick={() =>
+                  searchCollectionHandler(ProductCollection.BOUQUET)
+                }
+              >
+                Bouquet
+              </button>
+              <button
+                className={`filter-btn ${productSearch.productCollection === ProductCollection.VASE ? "active-filter" : ""}`}
+                onClick={() => searchCollectionHandler(ProductCollection.VASE)}
+              >
+                Vased
+              </button>
+              <button
+                className={`filter-btn ${productSearch.productCollection === ProductCollection.HOUSEPLANT ? "active-filter" : ""}`}
+                onClick={() =>
+                  searchCollectionHandler(ProductCollection.HOUSEPLANT)
+                }
+              >
+                Houseplant
+              </button>
+              <button
+                className={`filter-btn ${productSearch.productCollection === ProductCollection.TREE ? "active-filter" : ""}`}
+                onClick={() => searchCollectionHandler(ProductCollection.TREE)}
+              >
+                Tree
+              </button>
+              <button
+                className={`filter-btn ${productSearch.productCollection === ProductCollection.OTHER ? "active-filter" : ""}`}
+                onClick={() => searchCollectionHandler(ProductCollection.OTHER)}
+              >
+                Other
+              </button>
+              <select
+                className="sort-select"
+                onChange={(e) => searchOrderHandler(e.target.value)}
+              >
                 <option>Default sorting</option>
-                <option>Sort by price: low to high</option>
-                <option>Sort by price: high to low</option>
-                <option>Sort by newest</option>
+                <option value="productViews">Sort by popularity</option>
+                <option value="productPrice">Sort by price: low to high</option>
+                <option value="createdAt">Sort by newest</option>
               </select>
             </div>
 
             {/* Product grid */}
             <div className={"product-wrapper"}>
               {products.length !== 0 ? (
-                products.map((product, index) => (
-                  <Stack key={index} className={"product-card"}>
+                products.map((product: Product) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  return (
                     <Stack
-                      className={"product-img"}
-                      sx={{ backgroundImage: `url(${product.imagePath})` }}
+                      key={product._id}
+                      className={"product-card"}
+                      onClick={() => chooseDishHandler(product._id)}
                     >
-                      {product.sale && (
-                        <div className={"product-size"}>Size</div>
-                      )}
-                      <Button className={"shop-btn"} />
-                      <Button className={"view-btn"} sx={{ right: "36px" }} />
+                      <Stack
+                        className={"product-img"}
+                        sx={{
+                          backgroundImage: `url(${imagePath})`,
+                          position: "relative",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div className={"product-size"}>
+                          {product.productCollection === ProductCollection.TREE
+                            ? product.productVolume
+                                ?.split(" ")
+                                .map(
+                                  (word, index) =>
+                                    index === 0
+                                      ? word // "3" — o'zgarmaydi
+                                      : word.charAt(0).toUpperCase() +
+                                        word.slice(1).toLowerCase(), // "YEARS" → "Years"
+                                )
+                                .join(" ")
+                            : product.productCollection ===
+                                ProductCollection.OTHER
+                              ? product.productItemSize
+                                  ?.charAt(0)
+                                  .toUpperCase() +
+                                product.productItemSize?.slice(1).toLowerCase()
+                              : product.productSize?.charAt(0).toUpperCase() +
+                                product.productSize?.slice(1).toLowerCase()}
+                        </div>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            bottom: "8px",
+                            right: "8px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                        >
+                          <Badge
+                            badgeContent={product.productViews}
+                            color="secondary"
+                            sx={{
+                              "& .MuiBadge-badge": {
+                                top: "4px",
+                                right: "4px",
+                                backgroundColor: "rgba(0, 0, 0, 0.4)",
+                                color: "white",
+                                fontSize: "16px",
+                                minWidth: "16px",
+                                height: "16px",
+                              },
+                            }}
+                          >
+                            <RemoveRedEyeIcon
+                              sx={{
+                                color:
+                                  product.productViews === 0 ? "gray" : "white",
+                                fontSize: 25,
+                              }}
+                            />
+                          </Badge>
+                        </Box>
+
+                        <Button className={"shop-btn"} />
+                        <Button className={"view-btn"} sx={{ right: "36px" }} />
+                      </Stack>
+                      <Box className={"product-desc"}>
+                        <span className="product-title">
+                          {product.productName}
+                        </span>
+                        <div className={"product-price"}>
+                          <span>${product.productPrice.toFixed(2)}</span>
+                        </div>
+                        <button className="add-to-cart-btn">Add to cart</button>
+                      </Box>
                     </Stack>
-                    <Box className={"product-desc"}>
-                      <span className="product-title">
-                        {product.productName}
-                      </span>
-                      <div className={"product-price"}>
-                        <span>${product.price}.00</span>
-                      </div>
-                      <button className="add-to-cart-btn">Add to cart</button>
-                    </Box>
-                  </Stack>
-                ))
+                  );
+                })
               ) : (
                 <Box className="no-data">Products are not available!</Box>
               )}
@@ -184,8 +422,12 @@ export default function Products() {
           {/* ── Pagination ── */}
           <Stack className={"pagination-section"}>
             <Pagination
-              count={3}
-              page={1}
+              count={
+                products.length !== 0
+                  ? productSearch.page + 1
+                  : productSearch.page
+              } //countni qiymatini yangilash.(yani pageda productlar bor bulsa, kngi yana 1ta page qush, yoki bulmasam qushma degani.)
+              page={productSearch.page}
               renderItem={(item) => (
                 <PaginationItem
                   components={{
@@ -195,6 +437,7 @@ export default function Products() {
                   {...item}
                 />
               )}
+              onChange={PaginationHandler}
             />
           </Stack>
         </Stack>

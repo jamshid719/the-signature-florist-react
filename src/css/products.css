@@ -218,6 +218,8 @@
   grid-template-columns: repeat(4, 308px);
   gap: 20px;
   width: 1320px;
+  min-height: 760px;
+  align-content: start;
   flex-direction: unset;
   flex-wrap: unset;
 }
@@ -340,7 +342,7 @@
 /* ========== NO DATA ========== */
 .products .no-data {
   font-family: "Jost", sans-serif;
-  font-size: 15px;
+  font-size: 28px;
   color: #7a8f8d;
   padding: 60px 0;
   grid-column: span 4;
