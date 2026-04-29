@@ -9,9 +9,10 @@ const useBasket = () => {
 
   const [cartItems, setCartItems] = useState<CartItem[]>(currentCart); //initialState currentCart bulishi kk
 
-  /**Biz bu yerda useEffectni ishlatmadik, sababi malumotlarni biz apilar orqali backend fetch qilmadik(BACKEND API FETCH|AXIOS), tugri localStorage dan ob kelganimiz un */
+  /**Biz bu yerda useEffectni ishlatmadik, sababi malumotlarni biz apilar orqali backend fetch qilmadik(BACKEND API FETCH|AXIOS), biz tugri localStorage dan ob kelganimiz un */
 
-  // handlers
+  /**HANDLERS */
+
   const onAdd = (input: CartItem) => {
     const exist: any = cartItems.find(
       (item: CartItem) => item._id === input._id,
@@ -64,6 +65,7 @@ const useBasket = () => {
     setCartItems([]);
     localStorage.removeItem("cartData");
   };
+
   return {
     cartItems,
     onAdd,

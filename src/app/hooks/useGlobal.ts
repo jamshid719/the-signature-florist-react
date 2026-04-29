@@ -13,7 +13,7 @@ export const GlobalContext = createContext<GlobalInterface | undefined>(
   undefined,
 ); //bunda istalgan component: to‘g‘ridan-to‘g‘ri data oladi(props uzatish shart emas)
 
-//useGlobal custom hook (bu orqali global state olish)
+//useGlobal custom hook (bu orqali global state olish, masalan: authmember ni)
 export const useGlobals = () => {
   const context = useContext(GlobalContext);
   if (context === undefined) throw new Error("useGlobals within Provider");

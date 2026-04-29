@@ -168,8 +168,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <Box className={"wel-txt"}>
               Crafting botanical narratives for the modern home.
             </Box>
-            {/* <Box className={"service-txt"}>{count} hours service</Box> */}
-            {/* <Box className={"service-txt"}>24 hours service</Box> */}
+
             <Box className={"signup"}>
               {!authMember ? (
                 <Button

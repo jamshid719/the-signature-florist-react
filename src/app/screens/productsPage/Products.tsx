@@ -21,6 +21,8 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
+import { useGlobals } from "../../hooks/useGlobal";
+import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SLICE & SELECTOR */
 
@@ -34,7 +36,15 @@ const productsRetriever = createSelector(retrieveProducts, (products) => ({
   products,
 }));
 
-export default function Products() {
+interface ProductsPageProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function Products(props: ProductsPageProps) {
+  const { onAdd } = props;
+
+  const { authMember } = useGlobals();
+
   const { setProducts } = actionDispatch(useDispatch());
   const { products } = useSelector(productsRetriever);
 
@@ -71,26 +81,18 @@ export default function Products() {
   const searchCollectionHandler = (collection: ProductCollection) => {
     productSearch.page = 1; //btnlar har bosilganda, page 1 ga olib kelsin degani.
     productSearch.productCollection = collection;
-    productSearch.excludeCollection = undefined;
     productSearch.search = "";
     setProductSearch({ ...productSearch }); //for working useEffect
   };
 
   //searchAllCollection
   const searchAllCollectionHandler = () => {
-    const product = new ProductService();
-    product
-      .getProductsExceptOther({
-        page: 1,
-        limit: productSearch.limit,
-        order: productSearch.order,
-        search: "",
-      })
-      .then((data) => setProducts(data))
-      .catch((err) => console.log(err));
-
-    productSearch.search = ""; // ← state ni ham tozala
-    setSearchText(""); //
+    productSearch.page = 1;
+    productSearch.productCollection = undefined;
+    productSearch.excludeCollection = ProductCollection.OTHER;
+    productSearch.search = "";
+    setSearchText("");
+    setProductSearch({ ...productSearch });
   };
 
   //searchCollectionHandler
@@ -405,10 +407,36 @@ export default function Products() {
                         <span className="product-title">
                           {product.productName}
                         </span>
-                        <div className={"product-price"}>
-                          <span>${product.productPrice.toFixed(2)}</span>
+                        <div className="product-price">
+                          {authMember?.memberFirstOrder ? (
+                            <>
+                              <span className="old-price">
+                                ${product.productPrice.toFixed(2)}
+                              </span>
+                              <span className="new-price">
+                                ${(product.productPrice * 0.7).toFixed(2)}
+                              </span>
+                            </>
+                          ) : (
+                            <span>${product.productPrice.toFixed(2)}</span>
+                          )}
                         </div>
-                        <button className="add-to-cart-btn">Add to cart</button>
+                        <button
+                          className="add-to-cart-btn"
+                          onClick={(e) => {
+                            console.log("PRESSED");
+                            onAdd({
+                              _id: product._id,
+                              quantity: 1,
+                              name: product.productName,
+                              price: product.productPrice,
+                              image: product.productImages[0],
+                            });
+                            e.stopPropagation();
+                          }}
+                        >
+                          Add to cart
+                        </button>
                       </Box>
                     </Stack>
                   );

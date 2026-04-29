@@ -11,7 +11,7 @@ interface ProductsPageProps {
 }
 
 export default function ProductsPage(props: ProductsPageProps) {
-  const { onAdd } = props; //propsning ichidan aynan onAdd ob ber degani
+  const { onAdd } = props;
 
   const products = useRouteMatch();
   console.log("products:", products);
@@ -19,10 +19,10 @@ export default function ProductsPage(props: ProductsPageProps) {
     <div className="products-page">
       <Switch>
         <Route path={`${products.path}/:productId`}>
-          <ChosenProduct /*onAdd={onAdd}*/ />
+          <ChosenProduct onAdd={onAdd} />
         </Route>
         <Route path={`${products.path}`}>
-          <Products /*onAdd={onAdd}*/ />
+          <Products onAdd={onAdd} />
         </Route>
       </Switch>
     </div>

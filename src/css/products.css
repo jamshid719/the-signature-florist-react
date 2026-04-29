@@ -316,6 +316,19 @@
   color: #2d7a4f;
 }
 
+.products .old-price {
+  text-decoration: line-through;
+  color: #9a9690;
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+.products .new-price {
+  color: #2d7a4f;
+  font-weight: 700;
+  font-size: 18px;
+}
+
 /* ========== ADD TO CART BUTTON ========== */
 .products .add-to-cart-btn {
   width: 170px;

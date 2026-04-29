@@ -77,7 +77,16 @@ export default function Basket(props: BasketProps) {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Badge badgeContent={cartItems.length} color="secondary">
+        <Badge
+          badgeContent={cartItems.length}
+          color="secondary"
+          sx={{
+            "& .MuiBadge-badge": {
+              backgroundColor: "rgba(239, 131, 112, 0.75)",
+              color: "white",
+            },
+          }}
+        >
           <img src={"/icons/shopping-cart.svg"} />
         </Badge>
       </IconButton>

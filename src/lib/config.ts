@@ -7,3 +7,7 @@ export const Messages = {
   error4: "Message is empty!",
   error5: "Only images jpeg, jpg, png format allowed!",
 };
+
+export const getDiscountedPrice = (price: number): number => {
+  return +(price * 0.7).toFixed(2);
+};

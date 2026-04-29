@@ -13,6 +13,7 @@ export interface Member {
   memberAddress?: string;
   memberDesc?: string;
   memberImage?: string;
+  memberFirstOrder?: boolean;
   memberPoints: number;
   createdAt: Date;
   updatedAt: Date;

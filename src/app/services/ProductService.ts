@@ -31,21 +31,6 @@ class ProductService {
     }
   }
 
-  public async getProductsExceptOther(
-    input: ProductInquiry,
-  ): Promise<Product[]> {
-    try {
-      let url = `${this.path}/product/all-except-other?order=${input.order}&page=${input.page}&limit=${input.limit}`;
-      if (input.search) url += `&search=${input.search}`;
-      console.log("Full URL:", url);
-      const result = await axios.get(url);
-      return result.data;
-    } catch (err) {
-      console.log("Error, getProductsExceptOther:", err);
-      throw err;
-    }
-  }
-
   public async getProduct(productId: string): Promise<Product> {
     try {
       let url = `${this.path}/product/${productId}`;

@@ -22,6 +22,7 @@ import { useParams } from "react-router-dom";
 import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
 import { serverApi } from "../../../lib/config";
+import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SLICE & SELECTOR */
 
@@ -39,7 +40,12 @@ const chosenProductRetriever = createSelector(
   (chosenProduct) => ({ chosenProduct }),
 );
 
-export default function ChosenProduct() {
+interface ChosenProductProps {
+  onAdd: (item: CartItem) => void;
+}
+
+export default function ChosenProduct(props: ChosenProductProps) {
+  const { onAdd } = props;
   //hook
   const { productId } = useParams<{ productId: string }>();
   console.log("productId:", productId);
@@ -48,12 +54,12 @@ export default function ChosenProduct() {
   const { shop } = useSelector(shopRetriever);
   const { setShop, setChosenProduct } = actionDispatch(useDispatch()); // call
 
-  const product = {
-    title: "Bright bouquet of beauty peonies",
-    oldPrice: 50,
-    newPrice: 45,
-    desc: "Letius ultricies sociosqu lectus praesent ut. Magnis accumsan justo turpis nascetur consectetur feugiat hac. Tortor efficitur non aenean lacus vivamus habitant class platea conubia scelerisque laoreet.",
-  };
+  // const product = {
+  //   title: "Bright bouquet of beauty peonies",
+  //   oldPrice: 50,
+  //   newPrice: 45,
+  //   desc: "Letius ultricies sociosqu lectus praesent ut. Magnis accumsan justo turpis nascetur consectetur feugiat hac. Tortor efficitur non aenean lacus vivamus habitant class platea conubia scelerisque laoreet.",
+  // };
 
   useEffect(() => {
     const product = new ProductService();
@@ -130,7 +136,20 @@ export default function ChosenProduct() {
                   justifyContent={"space-between"}
                 >
                   {/* Add to cart */}
-                  <button className={"product-detail-cart-btn"}>
+                  <button
+                    className={"product-detail-cart-btn"}
+                    onClick={(e) => {
+                      console.log("PRESSED");
+                      onAdd({
+                        _id: chosenProduct._id,
+                        quantity: 1,
+                        name: chosenProduct.productName,
+                        price: chosenProduct.productPrice,
+                        image: chosenProduct.productImages[0],
+                      });
+                      e.stopPropagation();
+                    }}
+                  >
                     Add to cart
                   </button>
                   {/* Add to wishlist */}

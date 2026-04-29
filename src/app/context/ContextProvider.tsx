@@ -19,8 +19,9 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
   console.log("===verify==="); //verify jarayoni sodir bulmoqda degani
 
-  //OrderBuilder mantigi
+  //OrderBuilder
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
+
   return (
     <GlobalContext.Provider
       value={{ authMember, setAuthMember, orderBuilder, setOrderBuilder }}
