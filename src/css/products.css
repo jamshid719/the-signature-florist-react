@@ -262,8 +262,8 @@
 /* ========== SALE BADGE ========== */
 .products .product-size {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  right: 8px;
   width: 55px;
   height: 55px;
   border-radius: 50%;
@@ -350,6 +350,11 @@
 .products .add-to-cart-btn:hover {
   background: #1a5235;
   transform: scale(1.04);
+}
+
+.products .btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ========== NO DATA ========== */
@@ -678,6 +683,11 @@
   transition:
     background 0.22s ease,
     transform 0.18s ease;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .product-detail-cart-btn:hover {

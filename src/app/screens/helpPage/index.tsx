@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Container, Stack, Tabs } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Tab from "@mui/material/Tab";
@@ -12,15 +12,47 @@ import TabPanel from "@mui/lab/TabPanel";
 import "../../../css/help.css";
 import { faq } from "../../../lib/data/faq";
 import { terms } from "../../../lib/data/terms";
+import axios from "axios";
+import { serverApi } from "../../../lib/config";
+import {
+  sweetErrorHandling,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
 
 export default function HelpPage() {
   const [value, setValue] = React.useState("1");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  /** HANDLERS **/
   const handleChange = (e: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (!name.trim() || !email.trim() || !message.trim()) {
+        sweetErrorHandling({ message: "Please fill in all fields!" });
+        return;
+      }
+      setLoading(true);
+      await axios.post(`${serverApi}/contact/send`, {
+        memberNick: name,
+        memberEmail: email,
+        memberMsg: message,
+      });
+      await sweetTopSuccessAlert("Message sent successfully!", 700);
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err) {
+      sweetErrorHandling(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className={"help-page"}>
       <Container className={"help-container"}>
@@ -77,9 +109,9 @@ export default function HelpPage() {
                       <span>Contact us!</span>
                       <p>Fill out below form to send a message!</p>
                     </Box>
+                    {/* ← onSubmit qo'shildi, form shu yerda */}
                     <form
-                      action={"#"}
-                      method={"POST"}
+                      onSubmit={handleSubmit}
                       className={"admin-letter-frame"}
                     >
                       <div className={"admin-input-box"}>
@@ -88,6 +120,8 @@ export default function HelpPage() {
                           type={"text"}
                           name={"memberNick"}
                           placeholder={"Type your name here"}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
                       <div className={"admin-input-box"}>
@@ -96,6 +130,8 @@ export default function HelpPage() {
                           type={"text"}
                           name={"memberEmail"}
                           placeholder={"Type your email here"}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                       <div className={"admin-input-box"}>
@@ -103,6 +139,8 @@ export default function HelpPage() {
                         <textarea
                           name={"memberMsg"}
                           placeholder={"Your message"}
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
                         ></textarea>
                       </div>
                       <Box
@@ -110,8 +148,12 @@ export default function HelpPage() {
                         justifyContent={"flex-end"}
                         sx={{ mt: "30px" }}
                       >
-                        <Button type={"submit"} variant="contained">
-                          Send
+                        <Button
+                          type={"submit"}
+                          variant="contained"
+                          disabled={loading}
+                        >
+                          {loading ? "Sending..." : "Send"}
                         </Button>
                       </Box>
                     </form>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Box, Stack } from "@mui/material";
 import {
   CssVarsProvider,
@@ -20,8 +20,14 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePopularProducts } from "./selector";
 import { Product } from "../../../lib/types/product";
-import { serverApi } from "../../../lib/config";
+import { Messages, serverApi } from "../../../lib/config";
 import { ProductCollection } from "../../../lib/enums/product.enum";
+
+import LikeService from "../../services/LikeService";
+import { useGlobals } from "../../hooks/useGlobal";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { LikeGroup } from "../../../lib/enums/like.enum";
+import { useLike } from "../../hooks/useLike";
 
 /** REDUX SELECTOR */
 
@@ -35,8 +41,50 @@ export default function PopularProducts() {
   const { popularProducts } = useSelector(popularProductsRetriever);
   console.log("popularProducts:", popularProducts);
 
+  const { authMember } = useGlobals();
+
   //Like-mantigi:
-  const [wishlist, setWishlist] = useState<number[]>([]);
+  const { likedProducts, toggleLikeHandler } = useLike(popularProducts);
+
+  // // logout bo'lganda likelarni tozalash
+  // useEffect(() => {
+  //   if (!authMember) {
+  //     setLikedProducts({});
+  //   }
+  // }, [authMember]);
+
+  // // sahifa ochilganda likelarni tekshirish
+  // useEffect(() => {
+  //   if (!authMember || !popularProducts?.length) return;
+
+  //   const likeService = new LikeService();
+  //   popularProducts.forEach(async (product) => {
+  //     const isLiked = await likeService.checkLike(product._id);
+  //     setLikedProducts((prev) => ({ ...prev, [product._id]: isLiked }));
+  //   });
+  // }, [authMember, popularProducts]);
+
+  // // toggle handler
+  // const toggleLikeHandler = async (e: React.MouseEvent, productId: string) => {
+  //   e.stopPropagation();
+  //   try {
+  //     if (!authMember) {
+  //       sweetErrorHandling(new Error(Messages.error2)).then();
+  //       return;
+  //     }
+
+  //     const likeService = new LikeService();
+  //     const isLiked = await likeService.toggleLike({
+  //       likeRefId: productId,
+  //       likeGroup: LikeGroup.PRODUCT,
+  //     });
+
+  //     setLikedProducts((prev) => ({ ...prev, [productId]: isLiked }));
+  //     //REFRESH via CONTEXT
+  //   } catch (err) {
+  //     sweetErrorHandling(err).then();
+  //   }
+  // };
 
   return (
     <div className="popular-products-frame">
@@ -69,16 +117,10 @@ export default function PopularProducts() {
                       {/* Heart wishlist btn — top right */}
                       <CardContent className="card-content">
                         <Box
-                          className={`wishlist-btn${wishlist.includes(index) ? " active" : ""}`}
-                          onClick={() =>
-                            setWishlist((prev) =>
-                              prev.includes(index)
-                                ? prev.filter((i) => i !== index)
-                                : [...prev, index],
-                            )
-                          }
+                          className={`wishlist-btn${likedProducts[product._id] ? " active" : ""}`}
+                          onClick={(e) => toggleLikeHandler(e, product._id)}
                         >
-                          {wishlist.includes(index) ? (
+                          {likedProducts[product._id] ? (
                             <FavoriteIcon className="heart-icon filled" />
                           ) : (
                             <FavoriteBorderIcon className="heart-icon" />

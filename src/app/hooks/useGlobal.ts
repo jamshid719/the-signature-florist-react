@@ -6,6 +6,8 @@ interface GlobalInterface {
   setAuthMember: (member: Member | null) => void; // state update(bunda logout bulayotganda null qiymati kk)
   orderBuilder: Date;
   setOrderBuilder: (input: Date) => void;
+  likeBuilder: Date;
+  setLikeBuilder: (input: Date) => void;
 }
 
 //global state un context yaratish

@@ -1,92 +1,95 @@
 import React from "react";
 import { TabPanel } from "@mui/lab";
+import { Box, Button, Stack } from "@mui/material";
 
-interface Product {
-  name: string;
-  emoji: string;
-  price: number;
-  qty: number;
-}
+import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+import { retrieveFinishedOrders } from "./selector";
+import { Product } from "../../../lib/types/product";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { serverApi } from "../../../lib/config";
+import { Order, OrderItem } from "../../../lib/types/orders";
 
-interface Order {
-  id: string;
-  date: string;
-  products: Product[];
-  delivery: number;
-}
+/** REDUX SELECTOR */
 
-const finishedOrders: Order[] = [
-  {
-    id: "#ORD-2026-003",
-    date: "Apr 20, 2026",
-    products: [
-      { name: "Red Rose", emoji: "🌹", price: 30, qty: 3 },
-      { name: "Daisy Bunch", emoji: "🌼", price: 22, qty: 2 },
-    ],
-    delivery: 6,
-  },
-  {
-    id: "#ORD-2026-006",
-    date: "Apr 21, 2026",
-    products: [
-      { name: "Pink Tulip Vase", emoji: "🌷", price: 52, qty: 1 },
-      { name: "Pink Rose", emoji: "🌹", price: 28, qty: 2 },
-    ],
-    delivery: 6,
-  },
-];
+const finishedOrdersRetriever = createSelector(
+  retrieveFinishedOrders,
+  (finishedOrders) => ({ finishedOrders }),
+);
 
 export default function FinishedOrders() {
+  //Retriever
+  const { finishedOrders } = useSelector(finishedOrdersRetriever);
   return (
     <TabPanel value={"3"} sx={{ padding: 0 }}>
-      {finishedOrders.map((order) => {
-        const productTotal = order.products.reduce(
-          (s, p) => s + p.price * p.qty,
-          0,
-        );
-        const grand = productTotal + order.delivery;
+      {finishedOrders?.map((order) => {
         return (
-          <div key={order.id} className="order-card">
+          <div key={order._id} className="order-card">
             <div className="order-top">
               <div>
-                <div className="order-id">{order.id}</div>
-                <div className="order-date">{order.date}</div>
+                <div className="order-id">
+                  #{order._id.slice(-6).toUpperCase()}
+                </div>
+                <div className="order-date">
+                  {new Date(order.createdAt).toLocaleDateString("uz-UZ")}
+                </div>
               </div>
-              <div className="status-badge finished">
-                <span className="status-dot finished" />
+              <div className="status-badge paused">
+                <span className="status-dot paused" />
                 Finished
               </div>
             </div>
 
             <div className="order-products">
-              {order.products.map((p, i) => (
-                <div key={i} className="order-product-row">
-                  <div className="order-product-img">{p.emoji}</div>
-                  <div className="order-product-info">
-                    <div className="order-product-name">{p.name}</div>
-                    <div className="order-product-qty">× {p.qty}</div>
+              {order?.orderItems.map((item: OrderItem) => {
+                const product: Product = order.productData.filter(
+                  (ele: Product) => item.productId === ele._id,
+                )[0]; //bu aynan orderItem ga tegishli bulgan productni qulga ob beradi.
+                const imagePath = `${serverApi}/${product.productImages[0]}`;
+                return (
+                  <div key={item._id} className="order-product-row">
+                    <img
+                      src={imagePath}
+                      className={"order-product-img"}
+                      alt=""
+                    />
+
+                    <div className="order-product-info">
+                      <div className="order-product-name">
+                        {product.productName}
+                      </div>
+
+                      <div className="order-product-qty">
+                        $ {item.itemPrice} x {item.itemQuantity}
+                      </div>
+                    </div>
+                    <div className="order-product-price">
+                      ${(item.itemQuantity * item.itemPrice).toFixed(2)}
+                    </div>
                   </div>
-                  <div className="order-product-price">
-                    ${(p.price * p.qty).toFixed(2)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="order-totals">
               <div className="totals-row">
                 <span className="totals-label">Products</span>
-                <span className="totals-val">${productTotal.toFixed(2)}</span>
+                <span className="totals-val">
+                  ${(order.orderTotal - order.orderDelivery).toFixed(2)}
+                </span>
               </div>
               <div className="totals-row">
                 <span className="totals-label">Delivery</span>
                 <span className="totals-val">
-                  +${order.delivery.toFixed(2)}
+                  +${order.orderDelivery.toFixed(2)}
                 </span>
               </div>
               <div className="totals-row grand">
                 <span className="totals-label">Total</span>
-                <span className="totals-val">${grand.toFixed(2)}</span>
+                <span className="totals-val">
+                  ${order.orderTotal.toFixed(2)}
+                </span>
               </div>
             </div>
 
@@ -101,6 +104,17 @@ export default function FinishedOrders() {
           </div>
         );
       })}
+
+      {!finishedOrders ||
+        (finishedOrders.length === 0 && (
+          <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+            <img
+              src="/icons/noimage-list.svg"
+              style={{ width: 300, height: 300 }}
+              alt=""
+            />
+          </Box>
+        ))}
     </TabPanel>
   );
 }

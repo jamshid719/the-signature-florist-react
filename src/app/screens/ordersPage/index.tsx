@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -8,22 +8,64 @@ import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
 import "../../../css/order.css";
+import { setFinishedOrders, setPausedOrders, setProcessOrders } from "./slice";
+import { Dispatch } from "@reduxjs/toolkit";
+import { Order, OrderInquiry } from "../../../lib/types/orders";
+import { useDispatch } from "react-redux";
+import { useGlobals } from "../../hooks/useGlobal";
+import { useHistory } from "react-router-dom";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import OrderService from "../../services/OrderService";
+import { serverApi } from "../../../lib/config";
+import { MemberStatus, MemberType } from "../../../lib/enums/member.enum";
+
+/** REDUX SLICE */
+
+const actionDispatch = (dispatch: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+});
 
 export default function OrdersPage() {
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
+
+  const { orderBuilder, setOrderBuilder, authMember } = useGlobals();
+  const history = useHistory();
   const [value, setValue] = useState("1");
-  const [payMethod, setPayMethod] = useState(0);
+
+  const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
+    page: 1,
+    limit: 5,
+    orderStatus: OrderStatus.PAUSE,
+  });
+
+  useEffect(() => {
+    const order = new OrderService();
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
+      .then((data) => setPausedOrders(data)) //redux storega joyladik
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
+      .then((data) => setProcessOrders(data)) //redux storega joyladik
+      .catch((err) => console.log(err));
+
+    order
+      .getMyOrders({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
+      .then((data) => setFinishedOrders(data)) //redux storega joyladik
+      .catch((err) => console.log(err));
+  }, [orderInquiry, orderBuilder]);
+
+  /**HANDLERS */
 
   const handleChange = (e: SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-
-  const member = {
-    name: "Sarah Johnson",
-    email: "sarah@example.com",
-    phone: "+1 (555) 012-3456",
-    address: "123 Botanical Lane, Flower District, NY 10012",
-    emoji: "🌸",
-  };
+  if (!authMember) history.push("/");
 
   return (
     <div className="orders-page">
@@ -38,9 +80,19 @@ export default function OrdersPage() {
           <div className="orders-left">
             {/* Member card */}
             <div className="member-card">
-              <div className="member-avatar">{member.emoji}</div>
-              <div className="member-name">{member.name}</div>
-              <div className="member-email">{member.email}</div>
+              <img
+                className="member-avatar"
+                src={
+                  authMember?.memberImage
+                    ? `${serverApi}/${authMember?.memberImage}`
+                    : "/img/default-user.png"
+                }
+              />
+
+              <div className="member-name">{authMember?.memberNick}</div>
+              <div className="member-email">
+                {authMember?.memberStatus ? MemberType.USER : "-"}
+              </div>
               <div className="member-divider" />
 
               <div className="member-info-row">
@@ -51,7 +103,9 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <div className="member-info-label">Phone</div>
-                  <div className="member-info-val">{member.phone}</div>
+                  <div className="member-info-val">
+                    {authMember?.memberPhone}
+                  </div>
                 </div>
               </div>
 
@@ -64,7 +118,9 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <div className="member-info-label">Address</div>
-                  <div className="member-info-val">{member.address}</div>
+                  <div className="member-info-val">
+                    {authMember?.memberAddress ?? "No address"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,38 +130,12 @@ export default function OrdersPage() {
               <div className="payment-title">Payment Method</div>
 
               <div className="payment-methods">
-                {[
-                  { label: "Visa", color: "#1a1f71" },
-                  { label: "MC", color: "#eb001b" },
-                  { label: "PP", color: "#003087" },
-                  { label: "WU", color: "#f5a623" },
-                ].map((m, i) => (
-                  <div
-                    key={i}
-                    className={`pay-icon${payMethod === i ? " active" : ""}`}
-                    onClick={() => setPayMethod(i)}
-                  >
-                    <svg viewBox="0 0 48 24" style={{ width: 36 }}>
-                      <rect
-                        width="48"
-                        height="24"
-                        rx="4"
-                        fill={payMethod === i ? "#f0faf5" : "#f9f9f9"}
-                      />
-                      <text
-                        x="50%"
-                        y="16"
-                        textAnchor="middle"
-                        fontSize="9"
-                        fontWeight="700"
-                        fill={m.color}
-                        fontFamily="Jost,Arial"
-                      >
-                        {m.label}
-                      </text>
-                    </svg>
-                  </div>
-                ))}
+                <Box className={"payment-methods"}>
+                  <img src="/icons/western-card.svg" alt="" />
+                  <img src="/icons/master-card.svg" alt="" />
+                  <img src="/icons/paypal-card.svg" alt="" />
+                  <img src="/icons/visa-card.svg" alt="" />
+                </Box>
               </div>
 
               <div className="card-form">
@@ -155,8 +185,8 @@ export default function OrdersPage() {
                   </Box>
                 </div>
                 <div className="orders-tab-content">
-                  <PausedOrders />
-                  <ProcessOrders />
+                  <PausedOrders setValue={setValue} />
+                  <ProcessOrders setValue={setValue} />
                   <FinishedOrders />
                 </div>
               </TabContext>

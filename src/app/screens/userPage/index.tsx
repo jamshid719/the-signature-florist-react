@@ -14,10 +14,10 @@ export default function UserPage() {
   const history = useHistory();
   const { authMember } = useGlobals();
 
-  // if (!authMember) {
-  //   history.push("/");
-  //   return null;
-  // }
+  if (!authMember) {
+    history.push("/");
+    return null;
+  }
 
   return (
     <div className={"user-page"}>
@@ -60,15 +60,19 @@ export default function UserPage() {
                     <img
                       src={
                         authMember?.memberType === MemberType.SHOP
-                          ? "/icons/restaurant.svg"
+                          ? "/img/florist_badge.png"
                           : "/icons/user-badge.svg"
                       }
                       alt="badge"
                     />
                   </div>
                 </div>
-                <span className={"order-user-name"}>Floyd</span>
-                <span className={"order-user-prof"}>User</span>
+                <span className={"order-user-name"}>
+                  {authMember?.memberNick}
+                </span>
+                <span className={"order-user-prof"}>
+                  {authMember?.memberType}
+                </span>
                 <span className={"order-user-address"}>
                   {authMember?.memberAddress
                     ? authMember?.memberAddress

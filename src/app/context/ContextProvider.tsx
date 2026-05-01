@@ -22,9 +22,19 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   //OrderBuilder
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
 
+  //LikeBuilder
+  const [likeBuilder, setLikeBuilder] = useState<Date>(new Date());
+
   return (
     <GlobalContext.Provider
-      value={{ authMember, setAuthMember, orderBuilder, setOrderBuilder }}
+      value={{
+        authMember,
+        setAuthMember,
+        orderBuilder,
+        setOrderBuilder,
+        likeBuilder,
+        setLikeBuilder,
+      }}
     >
       {children}
     </GlobalContext.Provider> /* bu GlobalContext.Provider ga { authMember, setAuthMember } integratsiyasini amalga oshirdik, va buni loyihani hoxlagan joyida ishlata olamiz, shungdek index.ts fileda ishlatilishi: 

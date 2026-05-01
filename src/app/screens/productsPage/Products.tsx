@@ -24,6 +24,14 @@ import { useHistory } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";
 import { CartItem } from "../../../lib/types/search";
 
+import LikeService from "../../services/LikeService";
+import { LikeGroup } from "../../../lib/enums/like.enum";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { Messages } from "../../../lib/config";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useLike } from "../../hooks/useLike";
+
 /** REDUX SLICE & SELECTOR */
 
 //slice
@@ -47,6 +55,9 @@ export default function Products(props: ProductsPageProps) {
 
   const { setProducts } = actionDispatch(useDispatch());
   const { products } = useSelector(productsRetriever);
+
+  //Like-mantigi:
+  const { likedProducts, toggleLikeHandler } = useLike(products);
 
   const [productSearch, setProductSearch] = useState<ProductInquiry>({
     page: 1,
@@ -365,6 +376,23 @@ export default function Products(props: ProductsPageProps) {
                               : product.productSize?.charAt(0).toUpperCase() +
                                 product.productSize?.slice(1).toLowerCase()}
                         </div>
+                        {/* ✅ Like tugmasi */}
+                        <Box
+                          className={`wishlist-btn${likedProducts[product._id] ? " active" : ""}`}
+                          onClick={(e) => toggleLikeHandler(e, product._id)}
+                          sx={{
+                            position: "absolute",
+                            top: "8px",
+                            left: "8px",
+                            zIndex: 2,
+                          }}
+                        >
+                          {likedProducts[product._id] ? (
+                            <FavoriteIcon className="heart-icon filled" />
+                          ) : (
+                            <FavoriteBorderIcon className="heart-icon" />
+                          )}
+                        </Box>
                         <Box
                           sx={{
                             position: "absolute",
@@ -422,8 +450,14 @@ export default function Products(props: ProductsPageProps) {
                           )}
                         </div>
                         <button
-                          className="add-to-cart-btn"
+                          className={`add-to-cart-btn ${product.productLeftCount <= 0 ? "btn-disabled" : ""}`}
+                          disabled={product.productLeftCount <= 0}
                           onClick={(e) => {
+                            console.log(
+                              "productLeftCount:",
+                              product.productLeftCount,
+                            );
+                            if (product.productLeftCount <= 0) return;
                             console.log("PRESSED");
                             onAdd({
                               _id: product._id,
@@ -435,7 +469,9 @@ export default function Products(props: ProductsPageProps) {
                             e.stopPropagation();
                           }}
                         >
-                          Add to cart
+                          {product.productLeftCount <= 0
+                            ? "Sold out"
+                            : "Add to cart"}
                         </button>
                       </Box>
                     </Stack>

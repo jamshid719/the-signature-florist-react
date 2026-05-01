@@ -5,7 +5,7 @@ export const plans = [
     author: "Eleanor Vance",
     date: "At the End of April",
     location: "Daegu and Busan",
-    img: "/img/OnSale_florals.jpg",
+    img: "/img/discout_event.jpg",
   },
   {
     title: "Coming Soon",

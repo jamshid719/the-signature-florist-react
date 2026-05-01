@@ -10,6 +10,8 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -23,6 +25,7 @@ import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
+import { useLike } from "../../hooks/useLike";
 
 /** REDUX SLICE & SELECTOR */
 
@@ -53,13 +56,6 @@ export default function ChosenProduct(props: ChosenProductProps) {
   const { chosenProduct } = useSelector(chosenProductRetriever); //call
   const { shop } = useSelector(shopRetriever);
   const { setShop, setChosenProduct } = actionDispatch(useDispatch()); // call
-
-  // const product = {
-  //   title: "Bright bouquet of beauty peonies",
-  //   oldPrice: 50,
-  //   newPrice: 45,
-  //   desc: "Letius ultricies sociosqu lectus praesent ut. Magnis accumsan justo turpis nascetur consectetur feugiat hac. Tortor efficitur non aenean lacus vivamus habitant class platea conubia scelerisque laoreet.",
-  // };
 
   useEffect(() => {
     const product = new ProductService();
@@ -137,8 +133,10 @@ export default function ChosenProduct(props: ChosenProductProps) {
                 >
                   {/* Add to cart */}
                   <button
-                    className={"product-detail-cart-btn"}
+                    className={`product-detail-cart-btn  ${chosenProduct.productLeftCount <= 0 ? "btn-disabled" : ""}`}
+                    disabled={chosenProduct.productLeftCount <= 0}
                     onClick={(e) => {
+                      if (chosenProduct.productLeftCount <= 0) return;
                       console.log("PRESSED");
                       onAdd({
                         _id: chosenProduct._id,
@@ -150,7 +148,9 @@ export default function ChosenProduct(props: ChosenProductProps) {
                       e.stopPropagation();
                     }}
                   >
-                    Add to cart
+                    {chosenProduct.productLeftCount <= 0
+                      ? "Sold out"
+                      : "Add to cart"}
                   </button>
                   {/* Add to wishlist */}
                   <button
@@ -163,6 +163,7 @@ export default function ChosenProduct(props: ChosenProductProps) {
                   >
                     Add to Wishlist
                   </button>
+
                   {/* View icon button */}
                   <Box
                     className={"product-detail-view-btn"}
