@@ -138,6 +138,21 @@ class MemberService {
       throw err;
     }
   }
+
+  public async getMyProfile(): Promise<Member> {
+    try {
+      const result = await axios(`${serverApi}/member/detail`, {
+        method: "GET",
+        withCredentials: true,
+      });
+      const member: Member = result.data;
+      localStorage.setItem("memberData", JSON.stringify(member));
+      return member;
+    } catch (err) {
+      console.log("Error, getMyProfile:", err);
+      throw err;
+    }
+  }
 }
 
 export default MemberService;

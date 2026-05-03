@@ -23,9 +23,11 @@ import { Product } from "../../../lib/types/product";
 import { useParams } from "react-router-dom";
 import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
-import { serverApi } from "../../../lib/config";
+import { Messages, serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 import { useLike } from "../../hooks/useLike";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import { useGlobals } from "../../hooks/useGlobal";
 
 /** REDUX SLICE & SELECTOR */
 
@@ -49,6 +51,7 @@ interface ChosenProductProps {
 
 export default function ChosenProduct(props: ChosenProductProps) {
   const { onAdd } = props;
+  const { authMember } = useGlobals();
   //hook
   const { productId } = useParams<{ productId: string }>();
   console.log("productId:", productId);
@@ -136,6 +139,11 @@ export default function ChosenProduct(props: ChosenProductProps) {
                     className={`product-detail-cart-btn  ${chosenProduct.productLeftCount <= 0 ? "btn-disabled" : ""}`}
                     disabled={chosenProduct.productLeftCount <= 0}
                     onClick={(e) => {
+                      e.stopPropagation();
+                      if (!authMember) {
+                        sweetErrorHandling(new Error(Messages.error2)).then();
+                        return;
+                      }
                       if (chosenProduct.productLeftCount <= 0) return;
                       console.log("PRESSED");
                       onAdd({

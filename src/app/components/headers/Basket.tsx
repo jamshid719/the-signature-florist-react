@@ -25,11 +25,19 @@ export default function Basket(props: BasketProps) {
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
   const { authMember, setOrderBuilder } = useGlobals();
   const history = useHistory();
-  //product narxi
-  const itemsPrice: number = cartItems.reduce(
-    (a: number, c: CartItem) => a + c.quantity * c.price,
-    0,
-  );
+  // //product narxi
+  // const itemsPrice: number = cartItems.reduce(
+  //   (a: number, c: CartItem) => a + c.quantity * c.price,
+  //   0,
+  // );
+
+  const itemsPrice: number = cartItems.reduce((a: number, c: CartItem) => {
+    const discountedPrice =
+      authMember && authMember.memberPoints === 0
+        ? +(c.price * 0.7).toFixed(2)
+        : c.price;
+    return a + c.quantity * discountedPrice;
+  }, 0);
 
   //shipping cost
   const shippingCost: number = itemsPrice < 100 ? 5 : 0;
@@ -52,6 +60,14 @@ export default function Basket(props: BasketProps) {
     try {
       handleClose(); //basketdagi "Order" tegmasi bosilganda basket close bulishi kk
       if (!authMember) throw new Error(Messages.error2);
+
+      const discountedCartItems = cartItems.map((item) => ({
+        ...item,
+        price:
+          authMember && authMember.memberPoints === 0
+            ? +(item.price * 0.7).toFixed(2)
+            : item.price,
+      }));
 
       const order = new OrderService();
       await order.createOrder(cartItems);
@@ -144,6 +160,10 @@ export default function Basket(props: BasketProps) {
           <Box className={"orders-main-wrapper"}>
             <Box className={"orders-wrapper"}>
               {cartItems.map((item: CartItem) => {
+                const discountedPrice =
+                  authMember && authMember.memberPoints === 0
+                    ? +(item.price * 0.7).toFixed(2)
+                    : item.price;
                 const imagePath = `${serverApi}/${item.image}`;
                 return (
                   <Box className={"basket-info-box"} key={item._id}>
@@ -156,7 +176,7 @@ export default function Basket(props: BasketProps) {
                     <img src={imagePath} className={"product-img"} />
                     <span className={"product-name"}>{item.name}</span>
                     <p className={"product-price"}>
-                      ${item.price} x {item.quantity}
+                      ${discountedPrice} x {item.quantity}
                     </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">

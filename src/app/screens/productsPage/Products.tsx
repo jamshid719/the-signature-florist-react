@@ -436,7 +436,7 @@ export default function Products(props: ProductsPageProps) {
                           {product.productName}
                         </span>
                         <div className="product-price">
-                          {authMember?.memberFirstOrder ? (
+                          {authMember && authMember.memberPoints === 0 ? (
                             <>
                               <span className="old-price">
                                 ${product.productPrice.toFixed(2)}
@@ -453,12 +453,14 @@ export default function Products(props: ProductsPageProps) {
                           className={`add-to-cart-btn ${product.productLeftCount <= 0 ? "btn-disabled" : ""}`}
                           disabled={product.productLeftCount <= 0}
                           onClick={(e) => {
-                            console.log(
-                              "productLeftCount:",
-                              product.productLeftCount,
-                            );
+                            e.stopPropagation();
+                            if (!authMember) {
+                              sweetErrorHandling(
+                                new Error(Messages.error2),
+                              ).then();
+                              return;
+                            }
                             if (product.productLeftCount <= 0) return;
-                            console.log("PRESSED");
                             onAdd({
                               _id: product._id,
                               quantity: 1,
@@ -466,7 +468,6 @@ export default function Products(props: ProductsPageProps) {
                               price: product.productPrice,
                               image: product.productImages[0],
                             });
-                            e.stopPropagation();
                           }}
                         >
                           {product.productLeftCount <= 0
@@ -525,7 +526,27 @@ export default function Products(props: ProductsPageProps) {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
                   elit tellus, luctus nec ullamcorper mattis, pulvinar leo.
                 </Typography>
-                <button className={"discount-shop-btn"}>Shop Now</button>
+                {!authMember || authMember.memberPoints === 0 ? (
+                  <button
+                    className={"discount-shop-btn"}
+                    onClick={() => {
+                      if (!authMember) {
+                        sweetErrorHandling(new Error(Messages.error2)).then();
+                        return;
+                      }
+                    }}
+                  >
+                    Shop Now
+                  </button>
+                ) : (
+                  <button
+                    className={"discount-shop-btn"}
+                    disabled
+                    style={{ opacity: 0.5, cursor: "not-allowed" }}
+                  >
+                    Already Used
+                  </button>
+                )}
               </div>
             </div>
           </Stack>

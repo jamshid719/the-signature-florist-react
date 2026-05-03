@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack, Tabs } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Tab from "@mui/material/Tab";
@@ -18,6 +18,7 @@ import {
   sweetErrorHandling,
   sweetTopSuccessAlert,
 } from "../../../lib/sweetAlert";
+import { useLocation } from "react-router-dom";
 
 export default function HelpPage() {
   const [value, setValue] = React.useState("1");
@@ -25,6 +26,14 @@ export default function HelpPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const location = useLocation();
+  // ✅ URL dan tab qiymatini olish
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get("tab");
+    if (tab) setValue(tab);
+  }, [location.search]);
 
   const handleChange = (e: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);

@@ -20,6 +20,7 @@ import { useGlobals } from "../../hooks/useGlobal";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import OrderService from "../../services/OrderService";
+import MemberService from "../../services/MemberService";
 
 /** REDUX SELECTOR */
 
@@ -35,7 +36,7 @@ export default function PausedOrders(props: PausedOrdersProps) {
   //Retriever
   const { pausedOrders } = useSelector(pausedOrdersRetriever);
   const { setValue } = props;
-  const { authMember, setOrderBuilder } = useGlobals();
+  const { setAuthMember, authMember, setOrderBuilder } = useGlobals();
 
   /**HANDLER */
   const deleteOrderHandler = async (e: T) => {
@@ -75,6 +76,9 @@ export default function PausedOrders(props: PausedOrdersProps) {
       if (confirmation) {
         const order = new OrderService();
         await order.updateOrder(input);
+        const member = new MemberService();
+        const result = await member.getMyProfile();
+        setAuthMember(result);
         //=> PROCESS ORDER
         setValue("2");
         //ORDER REBUILD(=> srazu page yangilanish mantigi)

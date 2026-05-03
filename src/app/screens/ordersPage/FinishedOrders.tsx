@@ -10,6 +10,7 @@ import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
 import { Order, OrderItem } from "../../../lib/types/orders";
+import { useHistory } from "react-router-dom";
 
 /** REDUX SELECTOR */
 
@@ -21,6 +22,8 @@ const finishedOrdersRetriever = createSelector(
 export default function FinishedOrders() {
   //Retriever
   const { finishedOrders } = useSelector(finishedOrdersRetriever);
+
+  const history = useHistory();
   return (
     <TabPanel value={"3"} sx={{ padding: 0 }}>
       {finishedOrders?.map((order) => {
@@ -99,7 +102,12 @@ export default function FinishedOrders() {
 
             <div className="order-footer">
               <span className="progress-label">Delivered — 100%</span>
-              <button className="action-btn review">Leave Review</button>
+              <button
+                className="action-btn review"
+                onClick={() => history.push("/help?tab=3")}
+              >
+                Leave Review
+              </button>
             </div>
           </div>
         );
