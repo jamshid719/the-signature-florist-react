@@ -1,7 +1,5 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { Container, Box, Stack } from "@mui/material";
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 
 export default function Advertisement() {
   return (

@@ -1,15 +1,13 @@
 import React from "react";
 import { TabPanel } from "@mui/lab";
-import { Box, Button, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrieveFinishedOrders } from "./selector";
 import { Product } from "../../../lib/types/product";
-import ProductService from "../../services/ProductService";
-import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
-import { Order, OrderItem } from "../../../lib/types/orders";
+import { OrderItem } from "../../../lib/types/orders";
 import { useHistory } from "react-router-dom";
 
 /** REDUX SELECTOR */

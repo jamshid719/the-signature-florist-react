@@ -1,9 +1,8 @@
 import { SyntheticEvent, useEffect, useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PausedOrders from "./PausedOrders";
 import ProcessOrders from "./ProcessOrders";
 import FinishedOrders from "./FinishedOrders";
@@ -17,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import OrderService from "../../services/OrderService";
 import { serverApi } from "../../../lib/config";
-import { MemberStatus, MemberType } from "../../../lib/enums/member.enum";
+import { MemberType } from "../../../lib/enums/member.enum";
 
 /** REDUX SLICE */
 

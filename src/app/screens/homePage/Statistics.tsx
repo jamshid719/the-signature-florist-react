@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, colors, Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import Divider from "../../components/divider";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";

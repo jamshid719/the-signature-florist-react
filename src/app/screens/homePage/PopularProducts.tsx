@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Container, Box, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import {
@@ -15,19 +15,14 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionOutLinedIcon from "@mui/icons-material/DescriptionOutlined";
-import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePopularProducts } from "./selector";
 import { Product } from "../../../lib/types/product";
-import { Messages, serverApi } from "../../../lib/config";
+import { serverApi } from "../../../lib/config";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 
-import LikeService from "../../services/LikeService";
-import { useGlobals } from "../../hooks/useGlobal";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
-import { LikeGroup } from "../../../lib/enums/like.enum";
 import { useLike } from "../../hooks/useLike";
 
 /** REDUX SELECTOR */
@@ -42,50 +37,8 @@ export default function PopularProducts() {
   const { popularProducts } = useSelector(popularProductsRetriever);
   console.log("popularProducts:", popularProducts);
 
-  const { authMember } = useGlobals();
-
   //Like-mantigi:
   const { likedProducts, toggleLikeHandler } = useLike(popularProducts);
-
-  // // logout bo'lganda likelarni tozalash
-  // useEffect(() => {
-  //   if (!authMember) {
-  //     setLikedProducts({});
-  //   }
-  // }, [authMember]);
-
-  // // sahifa ochilganda likelarni tekshirish
-  // useEffect(() => {
-  //   if (!authMember || !popularProducts?.length) return;
-
-  //   const likeService = new LikeService();
-  //   popularProducts.forEach(async (product) => {
-  //     const isLiked = await likeService.checkLike(product._id);
-  //     setLikedProducts((prev) => ({ ...prev, [product._id]: isLiked }));
-  //   });
-  // }, [authMember, popularProducts]);
-
-  // // toggle handler
-  // const toggleLikeHandler = async (e: React.MouseEvent, productId: string) => {
-  //   e.stopPropagation();
-  //   try {
-  //     if (!authMember) {
-  //       sweetErrorHandling(new Error(Messages.error2)).then();
-  //       return;
-  //     }
-
-  //     const likeService = new LikeService();
-  //     const isLiked = await likeService.toggleLike({
-  //       likeRefId: productId,
-  //       likeGroup: LikeGroup.PRODUCT,
-  //     });
-
-  //     setLikedProducts((prev) => ({ ...prev, [productId]: isLiked }));
-  //     //REFRESH via CONTEXT
-  //   } catch (err) {
-  //     sweetErrorHandling(err).then();
-  //   }
-  // };
 
   return (
     <div className="popular-products-frame">

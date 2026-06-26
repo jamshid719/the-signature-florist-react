@@ -61,14 +61,6 @@ export default function Basket(props: BasketProps) {
       handleClose(); //basketdagi "Order" tegmasi bosilganda basket close bulishi kk
       if (!authMember) throw new Error(Messages.error2);
 
-      const discountedCartItems = cartItems.map((item) => ({
-        ...item,
-        price:
-          authMember && authMember.memberPoints === 0
-            ? +(item.price * 0.7).toFixed(2)
-            : item.price,
-      }));
-
       const order = new OrderService();
       await order.createOrder(cartItems);
 

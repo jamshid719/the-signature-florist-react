@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Badge from "@mui/material/Badge";
 import Pagination from "@mui/material/Pagination";
@@ -9,7 +8,6 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Typography from "@mui/material/Typography";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -24,8 +22,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";
 import { CartItem } from "../../../lib/types/search";
 
-import LikeService from "../../services/LikeService";
-import { LikeGroup } from "../../../lib/enums/like.enum";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { Messages } from "../../../lib/config";
 import FavoriteIcon from "@mui/icons-material/Favorite";

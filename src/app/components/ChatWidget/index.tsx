@@ -63,7 +63,9 @@ export default function ChatWidget() {
         <div className="chat-window">
           {/* Header */}
           <div className="chat-header">
-            <div className="chat-header-avatar">🌷</div>
+            <div className="chat-header-avatar">
+              <img src="/img/red_roses_3.jpg" alt="Florist Assistant" />
+            </div>
             <div className="chat-header-info">
               <span className="chat-header-name">Florist Assistant</span>
               <div className="chat-header-status">

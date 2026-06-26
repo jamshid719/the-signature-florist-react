@@ -1,6 +1,5 @@
 import { createSelector } from "reselect";
 import { AppRootState, ProductsPageState } from "../../../lib/types/screen";
-import HomePage from ".";
 
 //ProductsPage screen componentiga daxldor bulgan storageini (react storedan) qulga olish. (screen.ts)
 const selectProductsPage = (state: AppRootState) => state.productsPage;

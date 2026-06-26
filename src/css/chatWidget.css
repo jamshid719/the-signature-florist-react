@@ -1,6 +1,5 @@
 /* ═══════════════════════════════════════
-   CHAT WIDGET — The Signature Florist
-   Colors: #2d7a4f (green), #eb7661 (coral)
+   CHAT WIDGET
 ═══════════════════════════════════════ */
 
 .chat-widget-container {
@@ -30,7 +29,10 @@
   letter-spacing: 0.5px;
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(235, 118, 97, 0.4);
-  transition: background 0.22s, transform 0.18s, box-shadow 0.22s;
+  transition:
+    background 0.22s,
+    transform 0.18s,
+    box-shadow 0.22s;
 }
 
 .chat-toggle-btn:hover {
@@ -49,7 +51,9 @@
   height: 500px;
   background: #f8f8ff;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -87,6 +91,14 @@
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.chat-header-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .chat-header-info {
@@ -137,7 +149,9 @@
   justify-content: center;
   font-size: 20px;
   line-height: 1;
-  transition: color 0.18s, background 0.18s;
+  transition:
+    color 0.18s,
+    background 0.18s;
   flex-shrink: 0;
 }
 
@@ -225,7 +239,9 @@
 }
 
 @keyframes typingBounce {
-  0%, 60%, 100% {
+  0%,
+  60%,
+  100% {
     transform: translateY(0);
     opacity: 0.4;
   }
@@ -286,7 +302,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s, transform 0.18s;
+  transition:
+    background 0.2s,
+    transform 0.18s;
   color: #f8f8ff;
 }
 

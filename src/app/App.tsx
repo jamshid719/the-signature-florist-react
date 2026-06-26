@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
-
-import { Switch, Route, Link, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 
 import HomePage from "./screens/homePage";
 import ProductsPage from "./screens/productsPage";
@@ -13,10 +11,8 @@ import HomeNavbar from "./components/headers/HomeNavbar";
 import OtherNavbar from "./components/headers/OtherNavbar";
 import Footer from "./components/Footer";
 
-import Test from "./screens/test";
 import useBasket from "./hooks/useBasket";
 import AuthenticationModal from "./components/auth";
-import { T } from "../lib/types/common";
 import { sweetErrorHandling, sweetTopSuccessAlert } from "../lib/sweetAlert";
 import { Messages } from "../lib/config";
 import MemberService from "./services/MemberService";
@@ -108,7 +104,6 @@ function App() {
           <HelpPage />
         </Route>
         <Route path="/">
-          {/* <Test /> */}
           <HomePage />
         </Route>
       </Switch>

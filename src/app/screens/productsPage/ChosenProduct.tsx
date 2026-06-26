@@ -2,16 +2,11 @@ import React, { useEffect } from "react";
 import { Container, Stack, Box, Typography } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Divider from "../../components/divider";
-import Button from "@mui/material/Button";
-import Rating from "@mui/material/Rating";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -25,7 +20,6 @@ import ProductService from "../../services/ProductService";
 import MemberService from "../../services/MemberService";
 import { Messages, serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
-import { useLike } from "../../hooks/useLike";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobal";
 

@@ -14,7 +14,6 @@ import { retrieveTopUsers } from "./selector";
 import { useSelector } from "react-redux";
 import { Member } from "../../../lib/types/member";
 import { serverApi } from "../../../lib/config";
-import { Height } from "@mui/icons-material";
 
 /** REDUX SELECTOR */
 

@@ -1,20 +1,13 @@
 import React from "react";
 import { TabPanel } from "@mui/lab";
-import { Box, Button, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePausedOrders } from "./selector";
 import { Product } from "../../../lib/types/product";
-import ProductService from "../../services/ProductService";
-import { ProductCollection } from "../../../lib/enums/product.enum";
 import { Messages, serverApi } from "../../../lib/config";
-import {
-  Order,
-  OrderItem,
-  OrderItemInput,
-  OrderUpdateInput,
-} from "../../../lib/types/orders";
+import { Order, OrderItem, OrderUpdateInput } from "../../../lib/types/orders";
 import { T } from "../../../lib/types/common";
 import { useGlobals } from "../../hooks/useGlobal";
 import { OrderStatus } from "../../../lib/enums/order.enum";

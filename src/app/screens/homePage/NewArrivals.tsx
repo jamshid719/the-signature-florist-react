@@ -7,7 +7,7 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import CardOverflow from "@mui/joy/CardOverflow";
-import { retrieveNewProducts, retrievePopularProducts } from "./selector";
+import { retrieveNewProducts } from "./selector";
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
 import { Product } from "../../../lib/types/product";
