@@ -8,9 +8,12 @@ export default function Footer() {
   return (
     <div className="footer-wrapper">
       <Container>
-        <Stack flexDirection={"row"} sx={{ mt: "94px" }}>
+        <Stack
+          flexDirection={{ xs: "column", md: "row" }}
+          sx={{ mt: { xs: "40px", md: "94px" } }}
+        >
           {/* Brand */}
-          <Stack flexDirection={"column"} style={{ width: "300px" }}>
+          <Stack flexDirection={"column"} sx={{ width: { xs: "100%", md: "300px" } }}>
             <div className="footer-logo">The Signature Florist</div>
             <div className="footer-desc-txt">
               Daegu, Buk-gu, <br />
@@ -55,7 +58,11 @@ export default function Footer() {
           </Stack>
 
           {/* Nav columns */}
-          <Stack sx={{ ml: "120px" }} flexDirection={"row"} gap={"100px"}>
+          <Stack
+            sx={{ ml: { xs: 0, md: "120px" }, mt: { xs: "32px", md: 0 } }}
+            flexDirection={{ xs: "column", sm: "row" }}
+            gap={{ xs: "32px", md: "100px" }}
+          >
             {/* Explore */}
             <Stack>
               <Box>

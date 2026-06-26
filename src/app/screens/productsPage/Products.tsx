@@ -20,7 +20,7 @@ import { setProducts } from "./slice";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { serverApi } from "../../../lib/config";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";
 import { CartItem } from "../../../lib/types/search";
 
@@ -59,10 +59,14 @@ export default function Products(props: ProductsPageProps) {
   //Like-mantigi:
   const { likedProducts, toggleLikeHandler } = useLike(products);
 
+  const location = useLocation();
+  const initialOrder =
+    new URLSearchParams(location.search).get("order") ?? "createdAt";
+
   const [productSearch, setProductSearch] = useState<ProductInquiry>({
     page: 1,
     limit: 8,
-    order: "createdAt",
+    order: initialOrder,
     productCollection: ProductCollection.BOUQUET,
     search: "",
   });
@@ -327,12 +331,12 @@ export default function Products(props: ProductsPageProps) {
               </button>
               <select
                 className="sort-select"
+                value={productSearch.order}
                 onChange={(e) => searchOrderHandler(e.target.value)}
               >
-                <option>Default sorting</option>
+                <option value="createdAt">Default sorting</option>
                 <option value="productViews">Sort by popularity</option>
                 <option value="productPrice">Sort by price: low to high</option>
-                <option value="createdAt">Sort by newest</option>
               </select>
             </div>
 

@@ -24,8 +24,8 @@ export default function UserPage() {
       <Container>
         <Stack
           className={"my-page-frame"}
-          flexDirection={"row"} /* ← qo'shing */
-          alignItems={"flex-start"} /* ← qo'shing */
+          flexDirection={{ xs: "column", md: "row" }}
+          alignItems={"flex-start"}
           gap={"24px"}
         >
           {/* ── LEFT ── */}

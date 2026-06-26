@@ -180,3 +180,74 @@
   line-height: 26px;
   color: #4f547b;
 }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — TABLET  (≤ 1024px)
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .help-page .help-container {
+    flex-direction: column;
+  }
+
+  .help-page .help-main-content {
+    height: auto;
+  }
+
+  .help-page .css-1gsv261 {
+    width: 100%;
+  }
+
+  .help-page .admin-letter-box {
+    padding: 40px;
+  }
+
+  .help-page .admin-letter-frame span {
+    font-size: 20px;
+  }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤ 640px)
+════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .help-page .help-container {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    flex-direction: column;
+  }
+
+  .help-page .help-menu {
+    height: auto;
+    padding: 8px 0;
+  }
+
+  .help-page .help-main-content {
+    height: auto;
+  }
+
+  .help-page .css-1gsv261 {
+    width: 100%;
+  }
+
+  .help-page .admin-letter-box {
+    padding: 24px 16px;
+  }
+
+  .help-page .admin-letter-frame span {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .help-page .admin-letter-frame p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .help-page .admin-letter-frame .admin-input-box label {
+    font-size: 14px;
+  }
+
+  .rules-box {
+    padding: 16px;
+  }
+}

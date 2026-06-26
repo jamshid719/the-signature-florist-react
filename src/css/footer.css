@@ -204,3 +204,37 @@
   text-align: center;
   margin-top: 24px;
 }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — TABLET  (≤ 1024px)
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .footer-divider {
+    margin-top: 48px;
+  }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤ 640px)
+════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .footer-desc-txt {
+    max-width: 100%;
+  }
+
+  .newsletter-form {
+    width: 100%;
+  }
+
+  .newsletter-text {
+    max-width: 100%;
+  }
+
+  .footer-divider {
+    margin-top: 32px;
+  }
+}

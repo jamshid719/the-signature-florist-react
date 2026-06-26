@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Box, Stack } from "@mui/material";
+import { Link } from "react-router-dom";
 import {
   CssVarsProvider,
   Card,
@@ -95,10 +96,10 @@ export default function PopularProducts() {
               <Box className="section-label">Curated Selection</Box>
               <Box className="category-title">Popular Arrangements</Box>
             </Stack>
-            <Box className="view-all-link">
+            <Link className="view-all-link" to="/products?order=productViews">
               View All Popular
               <ArrowForwardIcon className="view-all-arrow" />
-            </Box>
+            </Link>
           </Stack>
 
           {/* ── Cards Frame ─────────────────────────────────────────── */}

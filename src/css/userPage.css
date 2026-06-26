@@ -363,3 +363,64 @@
   text-align: center;
   line-height: 1.7;
 }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — TABLET  (≤ 1024px)
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .my-page-frame {
+    margin-top: 60px;
+  }
+
+  .my-page-frame .my-page-right .order-info-box {
+    width: 100%;
+    height: auto;
+    padding-bottom: 24px;
+  }
+}
+
+/* ── MUI md breakpoint (900px) dan past: column layout ── */
+@media (max-width: 900px) {
+  .my-page-frame .my-page-right {
+    width: 100%;
+    flex-shrink: unset;
+  }
+
+  .my-page-frame .my-page-right .order-info-box {
+    width: 100%;
+    height: auto;
+    padding-bottom: 24px;
+  }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — MOBILE  (≤ 640px)
+════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .my-page-frame {
+    margin-top: 32px;
+  }
+
+  .my-page-frame .my-page-left {
+    padding: 20px 16px;
+    width: 100%;
+  }
+
+  .my-page-frame .my-page-left .menu-name {
+    font-size: 22px;
+  }
+
+  .my-page-frame .my-page-left .member-media-frame {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .my-page-frame .my-page-left .input-frame {
+    flex-direction: column;
+  }
+
+  .my-page-frame .my-page-left .save-box {
+    justify-content: center;
+  }
+}

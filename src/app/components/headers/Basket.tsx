@@ -118,6 +118,7 @@ export default function Basket(props: BasketProps) {
             overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
+            maxWidth: "calc(100vw - 16px)",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
