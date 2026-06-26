@@ -23,6 +23,8 @@ import MemberService from "./services/MemberService";
 import { useGlobals } from "./hooks/useGlobal";
 import "../css/navbar.css";
 import "../css/footer.css";
+import "../css/chatWidget.css";
+import ChatWidget from "./components/ChatWidget";
 
 function App() {
   const location = useLocation(); //react-router-dom ning hook
@@ -112,6 +114,7 @@ function App() {
       </Switch>
       <Footer />{" "}
       {/* ixtiyoriy Page ishlatilgani un switch dan tashqarisida yozildi*/}
+      <ChatWidget />
       <AuthenticationModal
         signupOpen={signupOpen}
         loginOpen={loginOpen}
