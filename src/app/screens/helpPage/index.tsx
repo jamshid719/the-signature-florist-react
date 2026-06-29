@@ -48,9 +48,9 @@ export default function HelpPage() {
       }
       setLoading(true);
       await axios.post(`${serverApi}/contact/send`, {
-        memberNick: name,
-        memberEmail: email,
-        memberMsg: message,
+        memberNick: name.trim(),
+        memberEmail: email.trim(),
+        memberMsg: message.trim(),
       });
       await sweetTopSuccessAlert("Message sent successfully!", 700);
       setName("");
