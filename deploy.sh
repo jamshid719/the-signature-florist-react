@@ -9,7 +9,7 @@ npm i yarn -g
 yarn global add serve
 yarn
 yarn run build
-pm2 start yarn.cmd --name TSFlorist-REACT --interpreter none -- run start:prod
+pm2 start yarn --name TSFlorist-REACT -- run start:prod
 
 
 # DEVELOPMENT
