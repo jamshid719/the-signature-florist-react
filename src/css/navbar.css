@@ -458,10 +458,13 @@
     gap: 12px;
     height: auto;
     padding: 12px 0;
+    justify-content: center;
   }
 
   .home-navbar .navbar-container .menu .brand-logo {
-    margin-left: 0;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
     width: 150px;
     height: 120px;
   }
@@ -491,6 +494,18 @@
     width: 100%;
     font-size: 16px;
     height: auto;
+  }
+
+  .home-navbar .navbar-container .detail .signup {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  .home-navbar .navbar-container .detail .signup .signup-button {
+    width: 150px;
+    height: 46px;
+    font-size: 14px;
+    border-radius: 18px;
   }
 
   .home-navbar .navbar-container .logo-frame {

@@ -51,9 +51,6 @@ export default function ActiveUsers() {
                       variant="outlined"
                       className="au-card"
                       style={{
-                        flex: "0 1 300px",
-                        maxWidth: "300px",
-                        minWidth: "220px",
                         backgroundColor: "#ffffff",
                         border: "1px solid #ebebeb",
                         borderRadius: "16px",

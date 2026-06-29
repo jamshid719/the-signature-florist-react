@@ -47,8 +47,6 @@ export default function NewArrivals() {
                       variant="outlined"
                       className="card"
                       sx={{
-                        flex: "1 1 0 !important",
-                        minWidth: "0 !important",
                         p: "0 !important",
                         background: "#ffffff !important",
                         border: "1px solid #e8e4e0 !important",

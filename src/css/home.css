@@ -334,6 +334,11 @@
   align-items: stretch;
 }
 
+.new-products-frame .card {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 /* NEW badge */
 .new-products-frame .product-sale {
   position: absolute;
@@ -546,6 +551,13 @@
   align-items: stretch;
   width: 100%;
   justify-content: center;
+}
+
+/* ── Card sizing ────────────────────────────────── */
+.active-users-frame .au-card {
+  flex: 0 1 300px;
+  max-width: 300px;
+  min-width: 220px;
 }
 
 /* ── Card hover ─────────────────────────────────── */
@@ -836,6 +848,11 @@
     flex-wrap: wrap;
   }
 
+  .new-products-frame .card {
+    flex: 1 1 calc(50% - 9px);
+    min-width: calc(50% - 9px);
+  }
+
   /* Advertisement */
   .homepage .ads-title {
     font-size: 30px;
@@ -886,8 +903,39 @@
 
   .homepage .static-frame .info {
     height: auto;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
+    gap: 24px 12px;
+  }
+
+  /* Vertical dividers don't fit a 2-column grid — hide them */
+  .homepage .static-frame .info > span {
+    display: none;
+  }
+
+  /* Two static-boxes per row */
+  .homepage .static-frame .info .static-box {
+    width: auto;
+    flex: 0 0 calc(50% - 6px);
+    justify-content: flex-start;
+  }
+
+  .homepage .static-frame .info .static-box .static-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  .homepage .static-frame .info .static-box .service-frame .service-text {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .homepage .static-frame .info .static-box .service-frame .service-text-detail {
+    font-size: 13px;
+    line-height: 18px;
   }
 
   /* Popular Products */
@@ -904,15 +952,16 @@
   }
 
   .cards-frame {
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
   .card {
-    flex: 0 0 100%;
+    flex: 0 0 calc(50% - 8px);
   }
 
   .card-cover {
-    height: 280px !important;
+    height: 220px !important;
   }
 
   /* New Arrivals */
@@ -920,8 +969,18 @@
     font-size: 26px;
   }
 
+  .new-products-frame {
+    padding: 40px 0 48px;
+  }
+
   .new-products-frame .cards-frame {
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .new-products-frame .card {
+    flex: 1 1 calc(50% - 8px);
+    min-width: calc(50% - 8px);
   }
 
   /* Advertisement */
@@ -943,8 +1002,16 @@
   }
 
   .active-users-frame .au-cards-frame {
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .active-users-frame .au-card {
+    flex: 0 0 calc(50% - 8px) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 20px 12px 16px !important;
   }
 
   /* Events */
