@@ -34,6 +34,12 @@ const ModalImg = styled.img`
   background: #000;
   margin-top: 9px;
   margin-left: 10px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: auto;
+    margin-left: 0;
+  }
 `;
 
 interface AuthenticationModalProps {
@@ -154,11 +160,23 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         <Fade in={signupOpen}>
           <Stack
             className={classes.paper}
-            direction={"row"}
-            sx={{ width: "800px" }}
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              width: { xs: "92vw", sm: "640px", md: "800px" },
+              maxWidth: "92vw",
+              maxHeight: "92vh",
+              overflowY: "auto",
+              alignItems: "center",
+            }}
           >
             <ModalImg src={"/img/sign_up_img.webp"} alt="camera" />
-            <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
+            <Stack
+              sx={{
+                marginLeft: { xs: 0, sm: "69px" },
+                marginTop: { xs: "16px", sm: 0 },
+                alignItems: "center",
+              }}
+            >
               <h2>Signup Form</h2>
               <TextField
                 sx={{ marginTop: "7px" }}
@@ -210,14 +228,20 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
         <Fade in={loginOpen}>
           <Stack
             className={classes.paper}
-            direction={"row"}
-            sx={{ width: "700px" }}
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              width: { xs: "92vw", sm: "560px", md: "700px" },
+              maxWidth: "92vw",
+              maxHeight: "92vh",
+              overflowY: "auto",
+              alignItems: "center",
+            }}
           >
             <ModalImg src={"/img/sign_up_img.webp"} alt="camera" />
             <Stack
               sx={{
-                marginLeft: "65px",
-                marginTop: "25px",
+                marginLeft: { xs: 0, sm: "65px" },
+                marginTop: { xs: "16px", sm: "25px" },
                 alignItems: "center",
               }}
             >

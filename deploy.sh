@@ -18,4 +18,4 @@ pm2 start yarn --name TSFlorist-REACT -- run start:prod
 # git pull origin develop
 
 # npm i
-# pm2 start cmd.exe --name TSFlorist -- /c "npm run start:dev"
+# pm2 start yarn.cmd --name TSFlorist-REACT --interpreter none -- run start:prod
